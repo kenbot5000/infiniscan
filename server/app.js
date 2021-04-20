@@ -3,12 +3,18 @@ const app = express();
 const port = 5000;
 const consola = require('consola');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/infiniscan');
+const dbConfig = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+};
+mongoose.connect('mongodb://localhost/infiniscan', dbConfig);
+
+app.use(express.json());
 
 // Routes
-const indexRoute = require('./routes/index.route');
+const userRoute = require('./routes/user.route');
 
-app.use('/', indexRoute);
+app.use('/user', userRoute);
 
 app.listen(port, () => {
   consola.ready({ message: `Infiniscan is now listening at http://localhost:${port}`, badge: true });
