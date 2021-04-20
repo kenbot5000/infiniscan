@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 5000;
 const consola = require('consola');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/infiniscan');
 
 // Routes
 const indexRoute = require('./routes/index.route');
