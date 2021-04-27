@@ -1,10 +1,9 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - infiniscan',
-    title: 'infiniscan',
+    titleTemplate: '%s',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -43,7 +42,12 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api/': 'http://localhost:5000'
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -56,16 +60,16 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          primary: '#4caf50',
+          secondary: '#795548',
+          accent: '#607d8b',
+          error: '#f44336',
+          warning: '#ffc107',
+          info: '#00bcd4',
+          success: '#3f51b5'
         }
       }
     }
@@ -74,4 +78,4 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
-}
+};
