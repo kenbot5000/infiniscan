@@ -6,15 +6,11 @@
     </v-system-bar>
 
     <v-navigation-drawer v-model="showNav" app>
-      <v-list nav flat>
+      <v-list nav>
         <v-list-item-group>
-          <v-list-item to="/admin/">
+          <v-list-item>
             <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/admin/stock">
-            <v-list-item-icon><v-icon>mdi-inbox-multiple</v-icon></v-list-item-icon>
-            <v-list-item-title>Stock</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
