@@ -23,10 +23,16 @@
     <v-app-bar app dark color="secondary">
       <v-app-bar-nav-icon @click="showNav = !showNav" />
       <v-app-bar-title>InfiniScan</v-app-bar-title>
+      <v-spacer />
+      <v-btn color="error">
+        <v-icon>mdi-logout-variant</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main class="grey lighten-4">
-      <nuxt />
+      <transition name="fade">
+        <nuxt v-show="showApp" />
+      </transition>
     </v-main>
   </v-app>
 </template>
@@ -36,8 +42,15 @@ export default {
   data () {
     return {
       time: '',
-      showNav: false
+      showNav: false,
+      showApp: true
     };
+  },
+  watch: {
+    $route () {
+      this.showApp = false;
+      this.showApp = true;
+    }
   },
   mounted () {
     setInterval(this.getTime, 1000);
@@ -50,3 +63,15 @@ export default {
   }
 };
 </script>
+
+<style>
+.fade-enter-active {
+  transition: opacity 1s;
+}
+ .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>
