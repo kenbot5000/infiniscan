@@ -4,8 +4,12 @@
       <v-col>
         <v-card class="pa-4">
           <h3 class="text-h3 ml-2 mt-2 mb-4">
-            Stock - Ingredients
+            Stock Managment
           </h3>
+          <v-tabs>
+            <v-tab>Ingredients</v-tab>
+            <v-tab>Food Items</v-tab>
+          </v-tabs>
           <v-divider />
           <v-data-table
             :headers="headers"
@@ -78,6 +82,11 @@ export default {
         { id: 6, name: 'Lychee Bursts', serving: '100g', type: 'pearl', stock: 20 },
         { id: 7, name: 'Boba Pearl', serving: '150g', type: 'pearl', stock: 25 }
       ]
+    };
+  },
+  head () {
+    return {
+      title: 'Stock Management'
     };
   }
 };
