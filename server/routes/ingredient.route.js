@@ -30,3 +30,29 @@ router.post('/', async (req, res) => {
     res.sendStatus(201);
   }
 });
+
+router.patch('/:id', async (req, res) => {
+  const exists = await Ingredient.exists({ _id: req.params.id });
+  if (exists) {
+    const ingredient = await Ingredient.findOne({ _id: req.query.id });
+    ingredient.name = req.body.name;
+    ingredient.serving = req.body.serving;
+    ingredient.itemtype = req.body.serving;
+    ingredient.stock = req.body.stock;
+    await ingredient.save();
+    res.json({ res: ingredient });
+  } else {
+    res.status(404).json({ message: 'Ingredient does not exist' });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  const exists = await Ingredient.exists({ _id: req.params.id });
+  if (exists) {
+    await Ingredient.findByIdAndRemove(req.params.id);
+  } else {
+    res.status(404).json({ message: 'Ingredient does not exist' });
+  }
+});
+
+module.exports = router;
