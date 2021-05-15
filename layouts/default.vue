@@ -39,6 +39,7 @@
 
 <script>
 export default {
+  name: 'Dashboard',
   data () {
     return {
       time: '',
@@ -60,6 +61,7 @@ export default {
       const dateString = new Date().toLocaleString('en-US');
       this.time = dateString;
     }
+
   }
 };
 </script>

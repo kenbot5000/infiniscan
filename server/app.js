@@ -14,7 +14,7 @@ app.use(express.json());
 // Routes
 const userRoute = require('./routes/user.route');
 const ingredientRoute = require('./routes/ingredient.route');
-const foodRoute = require('./routers/food.route');
+const foodRoute = require('./routes/food.route');
 
 app.use('/user', userRoute);
 app.use('/ingredient', ingredientRoute);

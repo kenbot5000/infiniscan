@@ -46,7 +46,7 @@ export default {
     proxy: true
   },
   proxy: {
-    '/api/': 'http://localhost:5000'
+    '/api/': { target: 'http://localhost:5000', pathRewrite: { '^/api/': '' } }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

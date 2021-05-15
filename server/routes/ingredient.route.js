@@ -3,7 +3,17 @@ const router = express.Router();
 const Ingredient = require('../models/Ingredient').Ingredient;
 
 router.get('/', async (req, res) => {
-  const ingredients = await Ingredient.find();
+  const sortBy = req.query.sortBy;
+  let ingredients;
+  if (sortBy) {
+    if (sortBy === 'type') {
+      const query = await Ingredient.find({}).select({ _id: 0, itemtype: 1 });
+      ingredients = query.map(function (item) { return item.itemtype; });
+      ingredients = [...ingredients.reduce((p, c) => p.set(c, true), new Map()).keys()];
+    }
+  } else {
+    ingredients = await Ingredient.find();
+  }
   res.json({ res: ingredients });
 });
 
@@ -31,7 +41,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/id', async (req, res) => {
   const exists = await Ingredient.exists({ _id: req.params.id });
   if (exists) {
     const ingredient = await Ingredient.findOne({ _id: req.query.id });
