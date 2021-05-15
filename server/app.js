@@ -15,10 +15,12 @@ app.use(express.json());
 const userRoute = require('./routes/user.route');
 const ingredientRoute = require('./routes/ingredient.route');
 const foodRoute = require('./routes/food.route');
+const archiveRoute = require('./routes/archive.route');
 
 app.use('/user', userRoute);
 app.use('/ingredient', ingredientRoute);
 app.use('/food', foodRoute);
+app.use('/archive', archiveRoute);
 
 app.listen(port, () => {
   consola.ready({ message: `Infiniscan is now listening at http://localhost:${port}`, badge: true });

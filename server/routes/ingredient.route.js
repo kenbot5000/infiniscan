@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Ingredient = require('../models/Ingredient').Ingredient;
+const IngredientArchive = require('../models/Ingredient').IngredientArchive;
 
 router.get('/', async (req, res) => {
   const sortBy = req.query.sortBy;
@@ -69,6 +70,10 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const exists = await Ingredient.exists({ _id: req.params.id });
   if (exists) {
+    const ingredient = await Ingredient.findById(req.params.id);
+    const toArchive = new IngredientArchive(ingredient.toJSON());
+    await toArchive.save();
+
     await Ingredient.findByIdAndRemove(req.params.id);
     res.json({ res: 'Item has been successfully deleted.' });
   } else {

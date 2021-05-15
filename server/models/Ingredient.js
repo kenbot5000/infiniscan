@@ -9,6 +9,7 @@ const IngredientSchema = new Schema({
 });
 
 const Ingredient = mongoose.model('Ingredient', IngredientSchema);
+const IngredientArchive = mongoose.model('IngredientArchive', IngredientSchema);
 
 // ? Remember to use Ingredient.Ingredient when importing
-module.exports = { Schema: IngredientSchema, Ingredient };
+module.exports = { Schema: IngredientSchema, Ingredient, IngredientArchive };

@@ -16,6 +16,10 @@
             <v-list-item-icon><v-icon>mdi-inbox-multiple</v-icon></v-list-item-icon>
             <v-list-item-title>Stock</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/admin/stock/archive">
+            <v-list-item-icon><v-icon>mdi-archive</v-icon></v-list-item-icon>
+            <v-list-item-title>Stock Archive</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
