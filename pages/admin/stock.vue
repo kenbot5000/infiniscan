@@ -1,5 +1,6 @@
 <template>
   <v-container class="px-9">
+    <Snackbar ref="Snackbar" />
     <v-row>
       <v-col>
         <v-card class="pa-4">
@@ -24,8 +25,11 @@
             <template #top>
               <v-text-field v-model="ingredientTable.search" label="Search" class="mx-4" />
             </template>
-            <template #[`item.id`]="{ item }">
-              {{ item.id }} <a href="javascript:void(0)" class="ml-2" @click="copyID(item.id)">Copy ID</a>
+            <template #[`item._id`]="{ item }">
+              {{ item._id }}
+              <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
+                <a href="javascript:void(0)" class="ml-2">Copy ID</a>
+              </CopyToClipboard>
             </template>
           </v-data-table>
         </v-card>
@@ -56,27 +60,33 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
 
-      <v-btn fab large color="warning">
+      <v-btn fab large color="warning" @click="toggleDialog('edit')">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
 
-      <v-btn fab large color="error">
+      <v-btn fab large color="error" @click="toggleDialog('delete')">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-speed-dial>
 
     <!-- Dialogs -->
-    <IngredientDialogs v-if="tab == 'ingredient'" :show-dialog="showDialog" :type="dialogType" @hideDialog="hideDialog" />
+    <IngredientDialogs v-if="tab == 'ingredient'" :show-dialog="showDialog" :type="dialogType" @hideDialog="hideDialog" @updateTable="getIngredients" />
   </v-container>
 </template>
 
 <script>
+import axios from 'axios';
+
+import Snackbar from '@/components/Snackbar';
 import IngredientDialogs from '@/components/stock/IngredientDialogs';
+import CopyToClipboard from 'vue-copy-to-clipboard';
 
 export default {
   name: 'StockModule',
   components: {
-    IngredientDialogs
+    Snackbar,
+    IngredientDialogs,
+    CopyToClipboard
   },
   data () {
     return {
@@ -87,21 +97,13 @@ export default {
       ingredientTable: {
         search: '',
         headers: [
-          { text: 'ID', sortable: true, value: 'id' },
+          { text: 'ID', sortable: true, value: '_id' },
           { text: 'Name', sortable: true, filterable: true, value: 'name' },
           { text: 'Serving Size', sortable: false, value: 'serving' },
-          { text: 'Item Type', sortable: true, filterable: true, value: 'type' },
+          { text: 'Item Type', sortable: true, filterable: true, value: 'itemtype' },
           { text: 'Stock', sortable: true, value: 'stock' }
         ],
-        table: [
-          { id: 1, name: 'Choco Powder', serving: '100g', type: 'powder', stock: 7 },
-          { id: 2, name: 'Cream Cheese Powder', serving: '100g', type: 'powder', stock: 10 },
-          { id: 3, name: 'Lychee Syrup', serving: '50mL', type: 'syrup', stock: 5 },
-          { id: 4, name: 'Simple Syrup', serving: '25mL', type: 'sweetener', stock: 18 },
-          { id: 5, name: 'Strawberry Syrup', serving: '50mL', type: 'syrup', stock: 0 },
-          { id: 6, name: 'Lychee Bursts', serving: '100g', type: 'pearl', stock: 20 },
-          { id: 7, name: 'Boba Pearl', serving: '150g', type: 'pearl', stock: 25 }
-        ]
+        table: []
       },
       foodTable: {
         headers: [
@@ -119,10 +121,10 @@ export default {
       title: 'Stock Management'
     };
   },
+  mounted () {
+    this.getIngredients();
+  },
   methods: {
-    copyID (id) {
-      // Copy to clipboard
-    },
     toggleDialog (type = '') {
       // Ensures that the prop is set to false to trigger the change
       this.showDialog = false;
@@ -132,8 +134,11 @@ export default {
     hideDialog () {
       this.showDialog = false;
       this.dialogType = '';
+    },
+    async getIngredients () {
+      const res = await axios.get('/api/ingredient/');
+      this.ingredientTable.table = res.data.res;
     }
-
   }
 };
 </script>

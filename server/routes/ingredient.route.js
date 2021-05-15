@@ -18,10 +18,16 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const exists = await Ingredient.exists({ _id: req.params.id });
-  if (exists) {
-    const ingredient = await Ingredient.findById(req.params.id);
-    res.json({ res: ingredient });
+  if ((/^[0-9a-fA-F]{24}$/).test(req.params.id)) {
+    const exists = await Ingredient.exists({ _id: req.params.id });
+    if (exists) {
+      const ingredient = await Ingredient.findById(req.params.id);
+      res.json({ res: ingredient });
+    } else {
+      res.status(404).json({ message: 'Ingredient not found.' });
+    }
+  } else {
+    res.status(404).json({ message: 'Ingredient not found.' });
   }
 });
 
@@ -41,18 +47,22 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.patch('/id', async (req, res) => {
-  const exists = await Ingredient.exists({ _id: req.params.id });
-  if (exists) {
-    const ingredient = await Ingredient.findOne({ _id: req.query.id });
-    ingredient.name = req.body.name;
-    ingredient.serving = req.body.serving;
-    ingredient.itemtype = req.body.serving;
-    ingredient.stock = req.body.stock;
-    await ingredient.save();
-    res.json({ res: ingredient });
+router.patch('/:id', async (req, res) => {
+  if ((/^[0-9a-fA-F]{24}$/).test(req.params.id)) {
+    const exists = await Ingredient.exists({ _id: req.params.id });
+    if (exists) {
+      const ingredient = await Ingredient.findById(req.params.id);
+      ingredient.name = req.body.name;
+      ingredient.serving = req.body.serving;
+      ingredient.itemtype = req.body.itemtype;
+      ingredient.stock = req.body.stock;
+      await ingredient.save();
+      res.json({ res: ingredient });
+    } else {
+      res.status(404).json({ message: 'Ingredient does not exist' });
+    }
   } else {
-    res.status(404).json({ message: 'Ingredient does not exist' });
+    res.status(404).json({ message: 'Ingredient not found.' });
   }
 });
 
@@ -60,6 +70,7 @@ router.delete('/:id', async (req, res) => {
   const exists = await Ingredient.exists({ _id: req.params.id });
   if (exists) {
     await Ingredient.findByIdAndRemove(req.params.id);
+    res.json({ res: 'Item has been successfully deleted.' });
   } else {
     res.status(404).json({ message: 'Ingredient does not exist' });
   }
