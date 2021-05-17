@@ -75,7 +75,7 @@ router.delete('/:id', async (req, res) => {
     await toArchive.save();
 
     await Ingredient.findByIdAndRemove(req.params.id);
-    res.json({ res: 'Item has been successfully deleted.' });
+    res.json({ res: 'Item has been successfully moved to archive .' });
   } else {
     res.status(404).json({ message: 'Ingredient does not exist' });
   }

@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-system-bar height="30" app color="secondary darken-3" dark>
+      <span>InfiniScan Dashboard v1.0.0</span>
       <v-spacer />
       <span>{{ time }}</span>
     </v-system-bar>
