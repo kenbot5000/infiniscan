@@ -45,6 +45,11 @@ export default {
       }
     };
   },
+  head () {
+    return {
+      title: 'Admin Login'
+    };
+  },
   methods: {
     login () {
       this.$router.push('/admin');
