@@ -82,7 +82,7 @@
     <v-dialog v-model="deleteDialog" width="600">
       <v-card class="text-h5">
         <v-card-title class="text-h5">
-          Delete Ingredient
+          Send Ingredient to Archive
         </v-card-title>
         <v-alert v-if="alert.show" :type="alert.type">
           {{ alert.message }}
@@ -90,11 +90,11 @@
         <v-form class="mt-4 mx-4">
           <v-text-field v-model.lazy="id" label="Ingredient ID" outlined placeholder="Paste from table" clearable />
           <v-text-field v-model="name" label="Name of Ingredient" outlined readonly />
-          <v-switch v-model="confirmDelete" color="secondary" label="I am sure I want to delete this item." />
+          <v-switch v-model="confirmDelete" color="secondary" label="I am sure I want to archive this item." />
         </v-form>
         <v-card-actions>
           <v-btn color="error" @click="submitDelete">
-            Delete
+            Archive this Item
           </v-btn>
           <v-btn color="warning" @click="deleteDialog = false">
             Close
