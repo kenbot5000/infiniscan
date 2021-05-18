@@ -9,6 +9,9 @@
     <v-navigation-drawer v-model="showNav" app>
       <v-list nav flat>
         <v-list-item-group>
+          <v-list-item class="text-h5" disabled>
+            Welcome, User
+          </v-list-item>
           <v-list-item to="/admin/">
             <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
@@ -20,6 +23,10 @@
           <v-list-item to="/admin/stock/archive">
             <v-list-item-icon><v-icon>mdi-archive</v-icon></v-list-item-icon>
             <v-list-item-title>Stock Archive</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/user">
+            <v-list-item-icon><v-icon>mdi-account-tie</v-icon></v-list-item-icon>
+            <v-list-item-title>Admin Accounts</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
