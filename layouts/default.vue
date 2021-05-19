@@ -24,7 +24,7 @@
             <v-list-item-icon><v-icon>mdi-archive</v-icon></v-list-item-icon>
             <v-list-item-title>Stock Archive</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/user">
+          <v-list-item to="/admin/accounts">
             <v-list-item-icon><v-icon>mdi-account-tie</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Accounts</v-list-item-title>
           </v-list-item>

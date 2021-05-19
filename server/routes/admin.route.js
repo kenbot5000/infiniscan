@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   const exists = await Admin.exists({ _id: req.params.id });
   if (exists) {
-    const admin = await Admin.findOne({ _id: req.query.id });
+    const admin = await Admin.findOne({ _id: req.params.id });
     admin.email = req.body.email;
     admin.password = req.body.password;
     admin.firstname = req.body.firstname;

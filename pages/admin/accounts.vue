@@ -14,36 +14,7 @@
       <v-col>
         <v-row>
           <v-col v-for="item of adminData" :key="item._id">
-            <v-card width="350" class="pa-1">
-              <v-card-title>Admin - Jane</v-card-title>
-              <v-card-text class="grey--text text--darken-4">
-                <v-row>
-                  <v-col><b>ID</b></v-col>
-                  <v-col>{{ item._id }}</v-col>
-                </v-row>
-                <v-row>
-                  <v-col><b>Email</b></v-col>
-                  <v-col>{{ item.email }}</v-col>
-                </v-row>
-                <v-row>
-                  <v-col><b>Password</b></v-col>
-                  <v-col>********</v-col>
-                </v-row>
-                <v-row>
-                  <v-col><b>First Name</b></v-col>
-                  <v-col>{{ item.firstname }}</v-col>
-                </v-row>
-                <v-row>
-                  <v-col><b>Last Name</b></v-col>
-                  <v-col>{{ item.lastname }}</v-col>
-                </v-row>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="warning">
-                  Edit Admin
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+            <AdminCard :item="item" @edit-admin="loadEditAdmin" />
           </v-col>
         </v-row>
       </v-col>
@@ -66,10 +37,10 @@
         </v-row>
         <v-row>
           <v-col>
+            <v-alert v-if="alert.show" :type="alert.type">
+              {{ alert.message }}
+            </v-alert>
             <v-card v-if="actionDisplay == 'add'">
-              <v-alert v-if="alert.show" :type="alert.type">
-                {{ alert.message }}
-              </v-alert>
               <v-card-title>Add Admin Account</v-card-title>
               <v-form class="mx-4 pr-4">
                 <v-text-field v-model="form.firstname" label="First Name" />
@@ -86,15 +57,33 @@
             </v-card>
             <v-card v-if="actionDisplay == 'edit'" class="pb-4">
               <v-card-title>Edit Admin</v-card-title>
-              <span v-if="form.id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to edit it.</span>
+              <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to edit it.</span>
               <v-form v-else class="mx-4 pr-4">
-                <v-text-field v-model="form.id" label="ID" readonly />
+                <v-text-field v-model="form._id" label="ID" readonly />
                 <v-text-field v-model="form.firstname" label="First Name" />
                 <v-text-field v-model="form.lastname" label="Last Name" />
                 <v-text-field v-model="form.email" label="Email" />
-                <v-text-field v-model="form.password" label="Password" />
-                <v-text-field v-model="form.confirmpass" label="Confirm Password" />
+                <v-text-field
+                  v-model="form.password"
+                  label="Password"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPassword ? 'text' : 'password'"
+                  @click:append="showPassword = !showPassword"
+                />
+                <v-text-field
+                  v-if="bufferPassword != form.password"
+                  v-model="form.confirmpass"
+                  label="Confirm Password"
+                  :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showConfirm ? 'text' : 'password'"
+                  @click:append="showConfirm = !showConfirm"
+                />
               </v-form>
+              <v-card-actions v-if="form._id != ''">
+                <v-btn color="primary" large width="200" @click="editAdmin">
+                  Submit
+                </v-btn>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -106,10 +95,12 @@
 <script>
 import axios from 'axios';
 import Snackbar from '@/components/Snackbar';
+import AdminCard from '@/components/user/AdminCard';
 
 export default {
   components: {
-    Snackbar
+    Snackbar,
+    AdminCard
   },
   data () {
     return {
@@ -120,8 +111,11 @@ export default {
         type: ''
       },
       adminData: [],
+      bufferPassword: '',
+      showPassword: false,
+      showConfirm: false,
       form: {
-        id: '',
+        _id: '',
         email: '',
         password: '',
         confirmpass: '',
@@ -134,6 +128,20 @@ export default {
     return {
       title: 'Admin Management'
     };
+  },
+  watch: {
+    actionDisplay () {
+      if (this.actionDisplay === '') {
+        this.form = {
+          _id: '',
+          email: '',
+          password: '',
+          confirmpass: '',
+          firstname: '',
+          lastname: ''
+        };
+      }
+    }
   },
   mounted () {
     this.getAllAdmin();
@@ -151,7 +159,8 @@ export default {
       this.adminData = res.data.res;
     },
     async addAdmin () {
-      if (this.password !== this.confirmpass) {
+      this.alert.show = false;
+      if (this.form.password !== this.form.confirmpass) {
         this.showAlert('Passwords do not match.');
         return;
       }
@@ -159,8 +168,30 @@ export default {
       if (res.status === 200) {
         this.$refs.Snackbar.show('Admin added successfully.');
       }
+    },
+    loadEditAdmin (item) {
+      this.actionDisplay = 'edit';
+      this.form = { ...item };
+      this.bufferPassword = item.password;
+    },
+    async editAdmin () {
+      this.alert.show = false;
+      if ((this.form.password !== this.bufferPassword) && (this.form.password !== this.form.confirmpass)) {
+        this.showAlert('Passwords do not match.');
+        return;
+      }
+      // Checks if any field is empty
+      if (!Object.values(this.form).every(o => o !== 'null')) {
+        this.showAlert('Please fill in all fields.');
+        return;
+      }
+      const res = await axios.patch(`/api/admin/${this.form._id}`, this.form);
+      if (res.status === 200) {
+        this.$refs.Snackbar.show('Admin edited successfully.');
+        this.getAllAdmin();
+        this.actionDisplay = '';
+      }
     }
-
   }
 };
 </script>
