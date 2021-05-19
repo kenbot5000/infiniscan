@@ -165,8 +165,10 @@ export default {
         return;
       }
       const res = await axios.post('/api/admin', this.form);
-      if (res.status === 200) {
+      if (res.status === 201) {
         this.$refs.Snackbar.show('Admin added successfully.');
+        this.getAllAdmin();
+        this.actionDisplay = '';
       }
     },
     loadEditAdmin (item) {
