@@ -58,4 +58,23 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.post('/auth/login', async (req, res) => {
+  const exists = await Admin.exists({ email: req.body.email });
+  if (exists) {
+    const admin = await Admin.findOne({ email: req.body.email });
+    if (admin.password === req.body.password) {
+      res.json({
+        res: JSON.stringify({
+          firstname: admin.firstname,
+          id: admin._id
+        })
+      });
+    } else {
+      res.status(401).json({ message: 'Incorrect password.' });
+    }
+  } else {
+    res.status(404).json({ message: 'An account with that email does not exist.' });
+  }
+});
+
 module.exports = router;

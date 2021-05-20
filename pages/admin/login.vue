@@ -10,6 +10,9 @@
             InfiniScan Admin
           </h2>
           <v-form>
+            <v-alert v-if="alert.show" type="warning">
+              {{ alert.message }}
+            </v-alert>
             <v-text-field v-model="email" label="Email" placeholder="email@email.com" />
             <v-text-field
               v-model="password"
@@ -33,10 +36,16 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   layout: 'empty',
   data () {
     return {
+      alert: {
+        show: false,
+        message: ''
+      },
       email: '',
       showPassword: false,
       password: '',
@@ -51,8 +60,18 @@ export default {
     };
   },
   methods: {
-    login () {
-      this.$router.push('/admin');
+    async login () {
+      this.alert.show = false;
+      try {
+        const res = await axios.post('/api/admin/auth/login', { email: this.email, password: this.password });
+        if (res.status === 200) {
+          this.$cookies.set('admin', res.data.res);
+          this.$router.push('/admin');
+        }
+      } catch (err) {
+        this.alert.show = true;
+        this.alert.message = err.response.data.message;
+      }
     }
   }
 };

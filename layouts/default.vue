@@ -36,7 +36,7 @@
       <v-app-bar-nav-icon @click="showNav = !showNav" />
       <v-app-bar-title>InfiniScan</v-app-bar-title>
       <v-spacer />
-      <v-btn color="error">
+      <v-btn color="error" @click="logout">
         <v-icon>mdi-logout-variant</v-icon>
       </v-btn>
     </v-app-bar>
@@ -67,13 +67,20 @@ export default {
   },
   mounted () {
     setInterval(this.getTime, 1000);
+
+    if (!this.$cookies.get('admin')) {
+      this.$router.push('/admin/login');
+    }
   },
   methods: {
     getTime () {
       const dateString = new Date().toLocaleString('en-US');
       this.time = dateString;
+    },
+    logout () {
+      this.$cookies.remove('admin');
+      this.$router.push('/admin/login');
     }
-
   }
 };
 </script>
