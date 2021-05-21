@@ -14,7 +14,7 @@
       <v-col>
         <v-row>
           <v-col v-for="item of adminData" :key="item._id">
-            <AdminCard :item="item" @edit-admin="loadEditAdmin" />
+            <AdminCard :item="item" @load-admin="loadAdmin" />
           </v-col>
         </v-row>
       </v-col>
@@ -29,6 +29,9 @@
               <v-btn color="secondary" class="mr-4" @click="actionDisplay = 'edit'">
                 Edit Admin
               </v-btn>
+              <v-btn color="error" class="mr-4" @click="actionDisplay = 'delete'">
+                Delete Admin
+              </v-btn>
               <v-btn color="error" outlined @click="actionDisplay = ''">
                 Close
               </v-btn>
@@ -37,6 +40,7 @@
         </v-row>
         <v-row>
           <v-col>
+            <!-- Add account -->
             <v-alert v-if="alert.show" :type="alert.type">
               {{ alert.message }}
             </v-alert>
@@ -46,8 +50,8 @@
                 <v-text-field v-model="form.firstname" label="First Name" />
                 <v-text-field v-model="form.lastname" label="Last Name" />
                 <v-text-field v-model="form.email" label="Email" />
-                <v-text-field v-model="form.password" label="Password" />
-                <v-text-field v-model="form.confirmpass" label="Confirm Password" />
+                <v-text-field v-model="form.password" label="Password" type="password" />
+                <v-text-field v-model="form.confirmpass" label="Confirm Password" type="password" />
               </v-form>
               <v-card-actions class="mx-2">
                 <v-btn color="primary" large width="200" @click="addAdmin">
@@ -55,11 +59,12 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
+            <!-- Edit Account -->
             <v-card v-if="actionDisplay == 'edit'" class="pb-4">
               <v-card-title>Edit Admin</v-card-title>
               <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to edit it.</span>
               <v-form v-else class="mx-4 pr-4">
-                <v-text-field v-model="form._id" label="ID" readonly />
+                <v-text-field v-model="form._id" label="ID" readonly filled />
                 <v-text-field v-model="form.firstname" label="First Name" />
                 <v-text-field v-model="form.lastname" label="Last Name" />
                 <v-text-field v-model="form.email" label="Email" />
@@ -82,6 +87,21 @@
               <v-card-actions v-if="form._id != ''">
                 <v-btn color="primary" large width="200" @click="editAdmin">
                   Submit
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+            <!-- Delete Account -->
+            <v-card v-if="actionDisplay == 'delete'" class="pb-4">
+              <v-card-title>Delete Admin</v-card-title>
+              <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to delete it.</span>
+              <v-form v-else class="mx-4 pr-4">
+                <v-text-field v-model="form._id" label="ID" readonly filled />
+                <v-text-field v-model="form.email" label="Email" readonly filled />
+                <v-switch v-model="confirmDelete" color="error" label="I am sure I want to delete this." />
+              </v-form>
+              <v-card-actions>
+                <v-btn v-if="form._id !== ''" color="error" :disabled="!confirmDelete" @click="deleteAdmin">
+                  Delete Account
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -121,7 +141,8 @@ export default {
         confirmpass: '',
         firstname: '',
         lastname: ''
-      }
+      },
+      confirmDelete: false
     };
   },
   head () {
@@ -171,8 +192,8 @@ export default {
         this.actionDisplay = '';
       }
     },
-    loadEditAdmin (item) {
-      this.actionDisplay = 'edit';
+    loadAdmin (type, item) {
+      this.actionDisplay = type;
       this.form = { ...item };
       this.bufferPassword = item.password;
     },
@@ -192,6 +213,19 @@ export default {
         this.$refs.Snackbar.show('Admin edited successfully.');
         this.getAllAdmin();
         this.actionDisplay = '';
+      }
+    },
+    async deleteAdmin () {
+      this.alert.show = false;
+      try {
+        const res = await axios.delete(`/api/admin/${this.form._id}`);
+        if (res.status === 204) {
+          this.$refs.Snackbar.show('Admin deleted successfully.');
+          this.getAllAdmin();
+          this.actionDisplay = '';
+        }
+      } catch (err) {
+        this.showAlert(err);
       }
     }
   }

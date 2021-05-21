@@ -52,7 +52,7 @@ router.delete('/:id', async (req, res) => {
   const exists = await Admin.exists({ _id: req.params.id });
   if (exists) {
     await Admin.deleteOne({ _id: req.params.id });
-    res.json(204);
+    res.sendStatus(204);
   } else {
     res.status(404).json({ message: 'Admin does not exist' });
   }

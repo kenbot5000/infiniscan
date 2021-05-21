@@ -24,8 +24,11 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="warning" @click="editAdmin">
+      <v-btn color="warning" @click="loadAdmin('edit')">
         Edit Admin
+      </v-btn>
+      <v-btn color="error" @click="loadAdmin('delete')">
+        Delete Admin
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -57,8 +60,8 @@ export default {
     }
   },
   methods: {
-    editAdmin () {
-      this.$emit('edit-admin', this.item);
+    loadAdmin (type) {
+      this.$emit('load-admin', type, this.item);
     }
   }
 };
