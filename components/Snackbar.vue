@@ -1,6 +1,6 @@
 <template>
   <!-- Wrapper for snackbar -->
-  <v-snackbar v-model="display" :timeout="2000" :type="type">
+  <v-snackbar v-model="display" :timeout="2000" :type="type" centered>
     {{ text }}
   </v-snackbar>
 </template>

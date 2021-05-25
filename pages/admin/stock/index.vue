@@ -32,6 +32,22 @@
               </CopyToClipboard>
             </template>
           </v-data-table>
+          <v-data-table
+            v-if="tab == 'food'"
+            :headers="foodTable.headers"
+            :items="foodTable.table"
+            :search="foodTable.search"
+          >
+            <template #top>
+              <v-text-field v-model="foodTable.search" label="Search" class="mx-4" />
+            </template>
+            <template #[`item._id`]="{ item }">
+              {{ item._id }}
+              <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
+                <a href="javascript:void(0)" class="ml-2">Copy ID</a>
+              </CopyToClipboard>
+            </template>
+          </v-data-table>
         </v-card>
       </v-col>
     </v-row>
@@ -71,6 +87,7 @@
 
     <!-- Dialogs -->
     <IngredientDialogs v-if="tab == 'ingredient'" :show-dialog="showDialog" :type="dialogType" @hideDialog="hideDialog" @updateTable="getIngredients" />
+    <FoodDialogs v-if="tab == 'food'" :show-dialog="showDialog" :type="dialogType" @hide-dialog="hideDialog" @update-table="getFood" />
   </v-container>
 </template>
 
@@ -79,6 +96,7 @@ import axios from 'axios';
 
 import Snackbar from '@/components/Snackbar';
 import IngredientDialogs from '@/components/stock/IngredientDialogs';
+import FoodDialogs from '@/components/stock/FoodDialogs';
 import CopyToClipboard from 'vue-copy-to-clipboard';
 
 export default {
@@ -86,6 +104,7 @@ export default {
   components: {
     Snackbar,
     IngredientDialogs,
+    FoodDialogs,
     CopyToClipboard
   },
   data () {
@@ -123,6 +142,7 @@ export default {
   },
   mounted () {
     this.getIngredients();
+    this.getFood();
   },
   methods: {
     toggleDialog (type = '') {
@@ -138,6 +158,10 @@ export default {
     async getIngredients () {
       const res = await axios.get('/api/ingredient/');
       this.ingredientTable.table = res.data.res;
+    },
+    async getFood () {
+      const res = await axios.get('/api/food/');
+      this.foodTable.table = res.data.res;
     }
   }
 };

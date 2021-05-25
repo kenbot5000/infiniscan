@@ -4,14 +4,15 @@ const Ingredient = require('../models/Ingredient').Ingredient;
 const IngredientArchive = require('../models/Ingredient').IngredientArchive;
 
 router.get('/', async (req, res) => {
-  const sortBy = req.query.sortBy;
   let ingredients;
-  if (sortBy) {
-    if (sortBy === 'type') {
+  if (req.query.sortBy) {
+    if (req.query.sortBy === 'type') {
       const query = await Ingredient.find({}).select({ _id: 0, itemtype: 1 });
       ingredients = query.map(function (item) { return item.itemtype; });
       ingredients = [...ingredients.reduce((p, c) => p.set(c, true), new Map()).keys()];
     }
+  } else if (req.query.search) {
+    ingredients = await Ingredient.find({ name: { $regex: req.query.search } });
   } else {
     ingredients = await Ingredient.find();
   }
