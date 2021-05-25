@@ -9,5 +9,6 @@ const FoodSchema = new Schema({
 });
 
 const Food = mongoose.model('Food', FoodSchema);
+const FoodArchive = mongoose.model('FoodArchive', FoodSchema);
 
-module.exports = { Schema: FoodSchema, Food };
+module.exports = { Schema: FoodSchema, Food, FoodArchive };

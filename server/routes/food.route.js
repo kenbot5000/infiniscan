@@ -3,7 +3,16 @@ const router = express.Router();
 const Food = require('../models/Food').Food;
 
 router.get('/', async (req, res) => {
-  const food = await Food.find();
+  let food;
+  if (req.query.sortBy) {
+    if (req.query.sortBy === 'type') {
+      const query = await Food.find({}).select({ _id: 0, type: 1 });
+      food = query.map(function (item) { return item.type; });
+      food = [...food.reduce((p, c) => p.set(c, true), new Map()).keys()];
+    }
+  } else {
+    food = await Food.find({});
+  }
   res.json({ res: food });
 });
 
