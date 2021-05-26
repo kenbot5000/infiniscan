@@ -208,7 +208,7 @@
           <v-switch v-model="confirmDelete" color="secondary" label="I am sure I want to archive this item." />
         </v-form>
         <v-card-actions>
-          <v-btn color="error" @click="submitDelete">
+          <v-btn color="error" :disabled="!confirmDelete" @click="submitDelete">
             Archive this Item
           </v-btn>
           <v-btn color="warning" @click="deleteDialog = false">
@@ -405,8 +405,19 @@ export default {
         this.showAlert(err.response.data.message);
       }
     },
-    submitDelete () {
-      // stuff
+    async submitDelete () {
+      this.alert.show = false;
+      try {
+        const res = await axios.delete(`/api/food/${this.id}`);
+        if (res.status === 200) {
+          this.$refs.Snackbar.show('Item archived successfully.');
+          this.getFoodTypes();
+          this.$emit('update-table');
+          this.deleteDialog = false;
+        }
+      } catch (err) {
+        this.showAlert(err.response.data.message);
+      }
     }
   }
 };

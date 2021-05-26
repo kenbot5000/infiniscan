@@ -11,6 +11,9 @@
             <v-tab @click="tab = 'ingredient'">
               Ingredients
             </v-tab>
+            <v-tab @click="tab = 'food'">
+              Food Items
+            </v-tab>
           </v-tabs>
           <v-divider />
           <v-data-table
@@ -21,6 +24,27 @@
           >
             <template #top>
               <v-text-field v-model="ingredientTable.search" label="Search" class="mx-4" />
+            </template>
+            <template #[`item.action`]="{ item }">
+              <v-btn color="warning" @click="showArchiveStockDialog('restore', item)">
+                Restore
+              </v-btn>
+              <v-btn color="error" @click="showArchiveStockDialog('delete', item)">
+                Delete
+              </v-btn>
+            </template>
+          </v-data-table>
+          <v-data-table
+            v-if="tab == 'food'"
+            :headers="foodTable.headers"
+            :items="foodTable.table"
+            :search="foodTable.search"
+          >
+            <template #top>
+              <v-text-field v-model="foodTable.search" label="Search" class="mx-4" />
+            </template>
+            <template #[`item.ingredients`]="{ item }">
+              <span class="text-subtitle-2 text--secondary">{{ item.ingredients.length }} Ingredients </span>
             </template>
             <template #[`item.action`]="{ item }">
               <v-btn color="warning" @click="showArchiveStockDialog('restore', item)">
@@ -90,6 +114,18 @@ export default {
         ],
         table: []
       },
+      foodTable: {
+        search: '',
+        headers: [
+          { text: 'ID', sortable: true, value: '_id' },
+          { text: 'Name', sortable: true, filterable: true, value: 'name' },
+          { text: 'Type', sortable: true, filterable: true, value: 'type' },
+          { text: 'Ingredients', sortable: false, value: 'ingredients' },
+          { text: 'Price', sortable: false, value: 'price' },
+          { text: 'Actions', sortable: false, value: 'action' }
+        ],
+        table: []
+      },
       restoreDialog: false,
       dialog: {
         show: false,
@@ -106,11 +142,16 @@ export default {
   },
   mounted () {
     this.getIngredientArchive();
+    this.getFoodArchive();
   },
   methods: {
     async getIngredientArchive () {
       const res = await axios.get('/api/archive/ingredient');
       this.ingredientTable.table = res.data.res;
+    },
+    async getFoodArchive () {
+      const res = await axios.get('/api/archive/food');
+      this.foodTable.table = res.data.res;
     },
     showArchiveStockDialog (type, item) {
       this.dialog = {
@@ -121,18 +162,20 @@ export default {
       };
     },
     async restoreItem () {
-      const res = await axios.post(`/api/archive/ingredient/${this.dialog.id}/restore`);
+      const res = await axios.post(`/api/archive/${this.tab}/${this.dialog.id}/restore`);
       if (res.status === 200) {
         this.$refs.Snackbar.show(res.data.res);
         this.getIngredientArchive();
+        this.getFoodArchive();
         this.dialog.show = false;
       }
     },
     async deleteItem () {
-      const res = await axios.delete(`/api/archive/ingredient/${this.dialog.id}/delete`);
+      const res = await axios.delete(`/api/archive/${this.tab}/${this.dialog.id}/delete`);
       if (res.status === 200) {
         this.$refs.Snackbar.show(res.data.res);
         this.getIngredientArchive();
+        this.getFoodArchive();
         this.dialog.show = false;
       }
     }

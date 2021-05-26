@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Food = require('../models/Food').Food;
+const FoodArchive = require('../models/Food').FoodArchive;
 
 router.get('/', async (req, res) => {
   let food;
@@ -60,7 +61,12 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const exists = await Food.exists({ _id: req.params.id });
   if (exists) {
+    const food = await Food.findById(req.params.id);
+    const toArchive = new FoodArchive(food.toJSON());
+    await toArchive.save();
+
     await Food.findByIdAndRemove(req.params.id);
+    res.json({ res: 'Item has been successfully moved to archive.' });
   } else {
     res.status(404).json({ message: 'Food item does not exist' });
   }
