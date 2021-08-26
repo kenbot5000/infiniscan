@@ -16,6 +16,14 @@
             <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/admin/orders" disabled>
+            <v-list-item-icon><v-icon>mdi-cash-register</v-icon></v-list-item-icon>
+            <v-list-item-title>Orders</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/orders/archive" disabled>
+            <v-list-item-icon><v-icon>mdi-cash-lock</v-icon></v-list-item-icon>
+            <v-list-item-title>Order Archive</v-list-item-title>
+          </v-list-item>
           <v-list-item to="/admin/stock">
             <v-list-item-icon><v-icon>mdi-inbox-multiple</v-icon></v-list-item-icon>
             <v-list-item-title>Stock</v-list-item-title>
@@ -23,6 +31,18 @@
           <v-list-item to="/admin/stock/archive">
             <v-list-item-icon><v-icon>mdi-archive</v-icon></v-list-item-icon>
             <v-list-item-title>Stock Archive</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/reporting" disabled>
+            <v-list-item-icon><v-icon>mdi-chart-areaspline</v-icon></v-list-item-icon>
+            <v-list-item-title>Reporting</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/rewards" disabled>
+            <v-list-item-icon><v-icon>mdi-wallet-giftcard</v-icon></v-list-item-icon>
+            <v-list-item-title>Rewards and Promos</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/users" disabled>
+            <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
+            <v-list-item-title>Manage Customers</v-list-item-title>
           </v-list-item>
           <v-list-item to="/admin/accounts">
             <v-list-item-icon><v-icon>mdi-account-tie</v-icon></v-list-item-icon>
