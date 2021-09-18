@@ -21,6 +21,7 @@
               :rules="[rules.required]"
               :type="showPassword ? 'text' : 'password'"
               @click:append="showPassword = !showPassword"
+              @keyup.enter="login"
             />
             <v-btn color="primary" class="my-3" large block @click="login">
               Log In
