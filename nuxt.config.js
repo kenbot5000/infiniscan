@@ -21,9 +21,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/axios.js',
     '~/plugins/cookies.js',
-    { src: '~/plugins/amplify.js', mode: 'client' },
-    '~/plugins/axios.js'
+    { src: '~/plugins/amplify.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,9 +46,6 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    proxy: true
-  },
   proxy: {
     '/api/': { target: process.env.API_URL, pathRewrite: { '^/api/': '' } }
   },

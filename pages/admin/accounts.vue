@@ -113,7 +113,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Snackbar from '@/components/Snackbar';
 import AdminCard from '@/components/user/AdminCard';
 
@@ -176,7 +175,7 @@ export default {
       };
     },
     async getAllAdmin () {
-      const res = await axios.get('/api/admin/');
+      const res = await this.$axios.get('/api/admin/');
       this.adminData = res.data.res;
     },
     async addAdmin () {
@@ -185,7 +184,7 @@ export default {
         this.showAlert('Passwords do not match.');
         return;
       }
-      const res = await axios.post('/api/admin', this.form);
+      const res = await this.$axios.post('/api/admin', this.form);
       if (res.status === 201) {
         this.$refs.Snackbar.show('Admin added successfully.');
         this.getAllAdmin();
@@ -208,7 +207,7 @@ export default {
         this.showAlert('Please fill in all fields.');
         return;
       }
-      const res = await axios.patch(`/api/admin/${this.form._id}`, this.form);
+      const res = await this.$axios.patch(`/api/admin/${this.form._id}`, this.form);
       if (res.status === 200) {
         this.$refs.Snackbar.show('Admin edited successfully.');
         this.getAllAdmin();
@@ -218,7 +217,7 @@ export default {
     async deleteAdmin () {
       this.alert.show = false;
       try {
-        const res = await axios.delete(`/api/admin/${this.form._id}`);
+        const res = await this.$axios.delete(`/api/admin/${this.form._id}`);
         if (res.status === 204) {
           this.$refs.Snackbar.show('Admin deleted successfully.');
           this.getAllAdmin();

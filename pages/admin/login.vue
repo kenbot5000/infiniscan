@@ -37,8 +37,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   layout: 'empty',
   data () {
@@ -64,7 +62,7 @@ export default {
     async login () {
       this.alert.show = false;
       try {
-        const res = await axios.post('/api/admin/auth/login', { email: this.email, password: this.password });
+        const res = await this.$axios.post('/api/admin/auth/login', { email: this.email, password: this.password });
         if (res.status === 200) {
           this.$cookies.set('admin', res.data.res);
           this.$router.push('/admin');

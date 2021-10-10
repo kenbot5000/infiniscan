@@ -91,8 +91,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 import Snackbar from '@/components/Snackbar';
 
 export default {
@@ -146,11 +144,11 @@ export default {
   },
   methods: {
     async getIngredientArchive () {
-      const res = await axios.get('/api/archive/ingredient');
+      const res = await this.$axios.get('/api/archive/ingredient');
       this.ingredientTable.table = res.data.res;
     },
     async getFoodArchive () {
-      const res = await axios.get('/api/archive/food');
+      const res = await this.$axios.get('/api/archive/food');
       this.foodTable.table = res.data.res;
     },
     showArchiveStockDialog (type, item) {
@@ -162,7 +160,7 @@ export default {
       };
     },
     async restoreItem () {
-      const res = await axios.post(`/api/archive/${this.tab}/${this.dialog.id}/restore`);
+      const res = await this.$axios.post(`/api/archive/${this.tab}/${this.dialog.id}/restore`);
       if (res.status === 200) {
         this.$refs.Snackbar.show(res.data.res);
         this.getIngredientArchive();
@@ -171,7 +169,7 @@ export default {
       }
     },
     async deleteItem () {
-      const res = await axios.delete(`/api/archive/${this.tab}/${this.dialog.id}/delete`);
+      const res = await this.$axios.delete(`/api/archive/${this.tab}/${this.dialog.id}/delete`);
       if (res.status === 200) {
         this.$refs.Snackbar.show(res.data.res);
         this.getIngredientArchive();
