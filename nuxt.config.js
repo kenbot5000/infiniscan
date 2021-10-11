@@ -50,6 +50,10 @@ export default {
     '/api/': { target: process.env.API_URL, pathRewrite: { '^/api/': '' } }
   },
 
+  axios: {
+    credentials: false
+  },
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {

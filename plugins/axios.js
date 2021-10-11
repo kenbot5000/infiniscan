@@ -8,4 +8,6 @@ export default function ({ $axios }) {
 
     return config;
   });
+
+  $axios.setHeader('Content-Type', 'application/json');
 };

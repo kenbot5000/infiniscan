@@ -1,11 +1,14 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6" />
-  </v-row>
+  <v-container fill-height class="px-9">
+    <v-row>
+      <v-col />
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+
 export default {
-  layout: 'empty'
+  layout: 'user'
 };
 </script>
