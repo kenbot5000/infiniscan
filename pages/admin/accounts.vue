@@ -21,25 +21,6 @@
       <v-col>
         <v-row>
           <v-col>
-            <v-card class="d-inline-flex align-center pr-4">
-              <v-card-title>Actions</v-card-title>
-              <v-btn color="primary" class="mr-4" @click="actionDisplay = 'add'">
-                Add Admin
-              </v-btn>
-              <v-btn color="secondary" class="mr-4" @click="actionDisplay = 'edit'">
-                Edit Admin
-              </v-btn>
-              <v-btn color="error" class="mr-4" @click="actionDisplay = 'delete'">
-                Delete Admin
-              </v-btn>
-              <v-btn color="error" outlined @click="actionDisplay = ''">
-                Close
-              </v-btn>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
             <!-- Add account -->
             <v-alert v-if="alert.show" :type="alert.type">
               {{ alert.message }}
@@ -60,6 +41,7 @@
               </v-card-actions>
             </v-card>
             <!-- Edit Account -->
+            <!--
             <v-card v-if="actionDisplay == 'edit'" class="pb-4">
               <v-card-title>Edit Admin</v-card-title>
               <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to edit it.</span>
@@ -90,7 +72,9 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
+            -->
             <!-- Delete Account -->
+            <!--
             <v-card v-if="actionDisplay == 'delete'" class="pb-4">
               <v-card-title>Delete Admin</v-card-title>
               <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to delete it.</span>
@@ -105,6 +89,7 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
+            -->
           </v-col>
         </v-row>
       </v-col>
