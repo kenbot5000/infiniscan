@@ -221,7 +221,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Snackbar from '@/components/Snackbar';
 
 export default {
@@ -306,7 +305,7 @@ export default {
     async searchIngredient () {
       if (this.searchIngredient === '') { return; }
       try {
-        const res = await axios.get(`/api/ingredient?search=${this.searchIngredient}`);
+        const res = await this.$axios.get(`/api/ingredient?search=${this.searchIngredient}`);
         this.searchResults = res.data.res;
       } catch (err) {
         this.showAlert(err.response.data.message);
@@ -315,7 +314,7 @@ export default {
     async id () {
       if (this.editDialog || this.deleteDialog) {
         try {
-          const res = await axios.get(`/api/food/${this.id}`);
+          const res = await this.$axios.get(`/api/food/${this.id}`);
           if (res.status === 200) {
             this.alert.show = false;
             const item = res.data.res;
@@ -323,7 +322,7 @@ export default {
             this.itemtype = item.type;
             this.price = item.price;
             for (const id of item.ingredients) {
-              const ingredientQuery = await axios.get(`/api/ingredient/${id}`);
+              const ingredientQuery = await this.$axios.get(`/api/ingredient/${id}`);
               if (ingredientQuery.status === 200) {
                 this.ingredients.push(ingredientQuery.data.res);
               }
@@ -357,7 +356,7 @@ export default {
       });
     },
     async getFoodTypes () {
-      const res = await axios.get('/api/food?sortBy=type');
+      const res = await this.$axios.get('/api/food?sortBy=type');
       this.itemtypes = res.data.res;
       this.itemtypes.push('Other');
     },
@@ -374,7 +373,7 @@ export default {
           ingredients: ingredientIDs,
           price: this.price
         };
-        const res = await axios.post('/api/food/', newItem);
+        const res = await this.$axios.post('/api/food/', newItem);
         if (res.status === 201) {
           this.$refs.Snackbar.show('Item added successfully!');
           this.$emit('update-table');
@@ -396,7 +395,7 @@ export default {
           ingredients: ingredientIDs,
           price: this.price
         };
-        const res = await axios.patch(`/api/food/${this.id}`, newItem);
+        const res = await this.$axios.patch(`/api/food/${this.id}`, newItem);
         if (res.status === 200) {
           this.$refs.Snackbar.show('Item edited successfully!');
           this.$emit('update-table');
@@ -408,7 +407,7 @@ export default {
     async submitDelete () {
       this.alert.show = false;
       try {
-        const res = await axios.delete(`/api/food/${this.id}`);
+        const res = await this.$axios.delete(`/api/food/${this.id}`);
         if (res.status === 200) {
           this.$refs.Snackbar.show('Item archived successfully.');
           this.getFoodTypes();

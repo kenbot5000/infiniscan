@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-infiniscan-dev-143354-authRole",
+      "UnauthRoleArn": "arn:aws:iam::269468119346:role/amplify-infiniscan-dev-143354-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::269468119346:role/amplify-infiniscan-dev-143354-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-infiniscan-dev-143354-deployment",
+      "UnauthRoleName": "amplify-infiniscan-dev-143354-unauthRole",
+      "StackName": "amplify-infiniscan-dev-143354",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:269468119346:stack/amplify-infiniscan-dev-143354/0fe0bff0-1b6f-11ec-ba6e-0a175ff6a6c4",
+      "AmplifyAppId": "d1f92k6clgbw1n"
+    }
+  }
+}

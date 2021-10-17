@@ -116,8 +116,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   props: {
     showDialog: {
@@ -202,7 +200,7 @@ export default {
     async id () {
       if (this.editDialog || this.deleteDialog) {
         try {
-          const res = await axios.get(`/api/ingredient/${this.id}`);
+          const res = await this.$axios.get(`/api/ingredient/${this.id}`);
           if (res.status === 200) {
             this.alert.show = false;
             const item = res.data.res;
@@ -236,7 +234,7 @@ export default {
       };
     },
     async getIngredientTypes () {
-      const res = await axios.get('/api/ingredient/?sortBy=type');
+      const res = await this.$axios.get('/api/ingredient/?sortBy=type');
       this.itemtypes = res.data.res;
       this.itemtypes.push('Other');
     },
@@ -262,7 +260,7 @@ export default {
         stock: this.stock
       };
       try {
-        const res = await axios.post('/api/ingredient/', formData);
+        const res = await this.$axios.post('/api/ingredient/', formData);
         if (res.status === 201) {
           this.showSnackbar('Ingredient added successfully.');
           this.getIngredientTypes();
@@ -287,7 +285,7 @@ export default {
         stock: this.stock
       };
       try {
-        const res = await axios.patch(`/api/ingredient/${this.id}`, formData);
+        const res = await this.$axios.patch(`/api/ingredient/${this.id}`, formData);
         if (res.status === 200) {
           this.showSnackbar('Ingredient edited successfully.');
           this.getIngredientTypes();
@@ -304,7 +302,7 @@ export default {
         return;
       }
       try {
-        const res = await axios.delete(`/api/ingredient/${this.id}`);
+        const res = await this.$axios.delete(`/api/ingredient/${this.id}`);
         if (res.status === 200) {
           this.showSnackbar('Item deleted successfully.');
           this.getIngredientTypes();

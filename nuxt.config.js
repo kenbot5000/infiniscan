@@ -21,7 +21,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/cookies.js'
+    '~/plugins/axios.js',
+    '~/plugins/cookies.js',
+    { src: '~/plugins/amplify.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,11 +46,12 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    proxy: true
-  },
   proxy: {
     '/api/': { target: process.env.API_URL, pathRewrite: { '^/api/': '' } }
+  },
+
+  axios: {
+    credentials: false
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -61,6 +64,7 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: false,
     theme: {
       dark: false,
       themes: {

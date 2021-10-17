@@ -36,7 +36,7 @@
               <v-text-field v-model="ingredientTable.search" label="Search" class="mx-4" />
             </template>
             <template #[`item._id`]="{ item }">
-              {{ item._id }}
+              {{ item.displayID }}
               <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
                 <a href="javascript:void(0)" class="ml-2">Copy ID</a>
               </CopyToClipboard>
@@ -52,7 +52,7 @@
               <v-text-field v-model="foodTable.search" label="Search" class="mx-4" />
             </template>
             <template #[`item._id`]="{ item }">
-              {{ item._id }}
+              {{ item.displayID }}
               <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
                 <a href="javascript:void(0)" class="ml-2">Copy ID</a>
               </CopyToClipboard>
@@ -151,12 +151,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import CopyToClipboard from 'vue-copy-to-clipboard';
 import Snackbar from '@/components/Snackbar';
 import IngredientDialogs from '@/components/stock/IngredientDialogs';
 import FoodDialogs from '@/components/stock/FoodDialogs';
-import CopyToClipboard from 'vue-copy-to-clipboard';
 
 export default {
   name: 'StockModule',
@@ -275,16 +273,16 @@ export default {
       this.dialogType = '';
     },
     async getIngredients () {
-      const res = await axios.get('/api/ingredient/');
+      const res = await this.$axios.get('/api/ingredient/');
       this.ingredientTable.table = res.data.res;
     },
     async getFood () {
-      const res = await axios.get('/api/food/');
+      const res = await this.$axios.get('/api/food/');
       this.foodTable.table = res.data.res;
     },
     async loadIngredientDialog (ingredients) {
       for (const item of ingredients) {
-        const res = await axios.get(`/api/ingredient/${item}`);
+        const res = await this.$axios.get(`/api/ingredient/${item}`);
         if (res.status === 200) {
           this.ingredientViewItems.push(res.data.res);
         }

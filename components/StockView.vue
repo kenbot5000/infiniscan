@@ -28,7 +28,7 @@
             </thead>
             <tbody>
               <tr v-for="item in stockData" :key="item.id">
-                <td>{{ item.id }}</td>
+                <td>{{ item.displayId }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.serving }}</td>
                 <td v-if="item.stock > 0">
