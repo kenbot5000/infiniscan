@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height fluid class="secondary darken-3">
     <v-row>
-      <v-col cols="6" offset="1">
+      <v-col cols="12" md="6" offset-md="1">
         <v-card>
           <v-container>
             <h3 class="text-h4">
@@ -10,13 +10,14 @@
             <v-alert v-if="alert.show" class="mt-4" dense border="left" type="warning">
               {{ alert.message }}
             </v-alert>
-            <v-text-field v-model="email" label="Email" />
+            <v-text-field v-model="email" label="Email" @keyup.enter="login" />
             <v-text-field
               v-model="password"
               label="Password"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
               @click:append="showPassword = !showPassword"
+              @keyup.enter="login"
             />
             <a href="#" @click="$router.push('/register')">Don't have an account yet? Sign up now!</a>
             <v-row class="mt-2">
@@ -61,6 +62,7 @@ export default {
       try {
         const res = await this.$axios.post('/api/user/auth/login', login);
         if (res.data.res) {
+          this.$store.commit('setUser', JSON.parse(res.data.res).id);
           this.$cookies.set('user', res.data.res);
           this.$router.push('/');
         }
