@@ -31,6 +31,9 @@
           <v-card-subtitle>
             {{ item.type }}
           </v-card-subtitle>
+          <v-card-text>
+            ₱{{ item.price }}
+          </v-card-text>
           <v-card-actions>
             <v-btn color="info" rounded @click="addToCart(item)">
               <v-icon>mdi-basket-fill</v-icon>Add to Basket!
@@ -43,9 +46,13 @@
 </template>
 
 <script>
+import Snackbar from '@/components/Snackbar';
 
 export default {
   name: 'UserDashboard',
+  components: {
+    Snackbar
+  },
   layout: 'user',
   data () {
     return {
