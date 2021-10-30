@@ -16,7 +16,7 @@
             <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/orders" disabled>
+          <v-list-item to="/admin/order">
             <v-list-item-icon><v-icon>mdi-cash-register</v-icon></v-list-item-icon>
             <v-list-item-title>Orders</v-list-item-title>
           </v-list-item>
