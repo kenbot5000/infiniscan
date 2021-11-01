@@ -1,7 +1,10 @@
 <template>
   <v-container fill-height fluid class="secondary darken-3">
     <v-row>
-      <v-col cols="12" md="6" offset-md="1">
+      <video autoplay muted loop class="login-bg">
+        <source :src="require('@/assets/video/pouringtea.mp4')">
+      </video>
+      <v-col cols="12" md="6" offset-md="1" class="login-content">
         <v-card>
           <v-container>
             <h3 class="text-h4">
@@ -74,5 +77,19 @@ export default {
 </script>
 
 <style>
+.login-bg {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
 
+.login-content {
+  position: fixed;
+  bottom: 50%;
+  transform: translate(0, 50%);
+  width: 100%;
+  padding: 20px;
+}
 </style>
