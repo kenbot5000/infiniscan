@@ -35,6 +35,7 @@ export default {
     OrderView,
     StockView
   },
+  layout: 'admin',
   head () {
     return {
       title: 'Dashboard'

@@ -97,6 +97,7 @@ export default {
   components: {
     Snackbar
   },
+  layout: 'admin',
   data () {
     return {
       tab: 'ingredient',

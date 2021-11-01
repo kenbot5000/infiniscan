@@ -37,7 +37,6 @@
 <script>
 export default {
   name: 'UserLogin',
-  layout: 'empty',
   data () {
     return {
       alert: {

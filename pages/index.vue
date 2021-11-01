@@ -68,7 +68,9 @@ export default {
   async mounted () {
     const { data } = await this.$axios.get('/api/food');
     this.foodData = data.res;
-    this.userID = this.$cookies.get('user').id;
+    if (this.$cookies.get('user')) {
+      this.userID = this.$cookies.get('user').id;
+    }
   },
   methods: {
     showAlert (msg, type = 'warning') {

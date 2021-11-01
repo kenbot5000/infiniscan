@@ -164,6 +164,7 @@ export default {
     FoodDialogs,
     CopyToClipboard
   },
+  layout: 'admin',
   data () {
     return {
       tab: 'ingredient',
