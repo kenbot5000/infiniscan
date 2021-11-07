@@ -5,11 +5,11 @@
       <v-col>
         <v-card class="pa-4 order-card">
           <h3 class="text-h3 ml-2 mt-2 mb-4">
-            Orders
+            Order Queue
           </h3>
           <v-divider />
           <div class="d-flex flex-column">
-            <OrderView v-for="i in 10" :key="i" :test="true" :test-type="i % 3" class="order-view" />
+            <OrderView v-for="(item, i) of orders" :key="i" :content="item" class="order-view" />
           </div>
         </v-card>
       </v-col>
@@ -35,10 +35,20 @@ export default {
     OrderView,
     StockView
   },
+  layout: 'admin',
+  data () {
+    return {
+      orders: []
+    };
+  },
   head () {
     return {
       title: 'Dashboard'
     };
+  },
+  async mounted () {
+    const res = await this.$axios.get('/order/list?status=waiting');
+    this.orders = res.data.res;
   }
 };
 </script>

@@ -106,6 +106,7 @@ export default {
     Snackbar,
     AdminCard
   },
+  layout: 'admin',
   data () {
     return {
       actionDisplay: '',

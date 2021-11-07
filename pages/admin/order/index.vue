@@ -50,6 +50,7 @@
 <script>
 export default {
   name: 'OrderManagement',
+  layout: 'admin',
   data () {
     return {
       tab: 'all',
