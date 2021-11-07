@@ -17,6 +17,7 @@
     "aws-amplify-vue": "^2.1.5",
     "core-js": "^3.9.1",
     "dotenv": "^10.0.0",
+    "html5-qrcode": "^2.1.2",
     "mongoose": "^5.12.4",
     "nuxt": "^2.15.3",
     "sass": "1.32.8",
