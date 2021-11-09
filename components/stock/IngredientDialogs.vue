@@ -14,6 +14,7 @@
           <v-select v-model="itemtype" :items="itemtypes" label="Ingedient Type" outlined />
           <v-text-field v-if="itemtype == 'Other'" v-model="newType" label="New Category" outlined placeholder="Case sensitive" />
           <v-text-field v-model="stock" :rules="[rules.number]" label="Stock" outlined placeholder="Input a number" />
+          <v-text-field v-model="critical" :rules="[rules.number]" label="Critical Level" outlined placeholder="How few servings to be critical stock level?" />
         </v-form>
         <v-card-actions>
           <v-btn color="success" @click="submitAdd">
@@ -54,6 +55,7 @@
           <v-select v-model="itemtype" :items="itemtypes" label="Ingedient Type" outlined />
           <v-text-field v-if="itemtype == 'Other'" v-model="newType" label="New Category" outlined placeholder="Case sensitive" />
           <v-text-field v-model="stock" :rules="[rules.number]" label="Stock" outlined placeholder="Input a number" />
+          <v-text-field v-model="critical" :rules="[rules.number]" label="Critical Level" outlined placeholder="How few servings to be critical stock level?" />
         </v-form>
         <v-card-actions>
           <v-btn color="success" @click="submitEdit">
@@ -150,6 +152,7 @@ export default {
       itemtype: '',
       newType: '',
       stock: 0,
+      critical: 0,
       // Form rules
       rules: {
         number: value => !isNaN(value)
@@ -208,6 +211,7 @@ export default {
             this.serving = item.serving;
             this.itemtype = item.itemtype;
             this.stock = item.stock;
+            this.critical = item.critical;
           }
         } catch (err) {
           this.showAlert(err.response.data.message);
@@ -244,6 +248,7 @@ export default {
       this.serving = '';
       this.itemtype = '';
       this.newType = '';
+      this.critical = 0;
     },
     async submitAdd () {
       this.alert.show = false;
@@ -257,7 +262,8 @@ export default {
         name: this.name,
         serving: this.serving,
         itemtype,
-        stock: this.stock
+        stock: this.stock,
+        critical: this.critical
       };
       try {
         const res = await this.$axios.post('/api/ingredient/', formData);
@@ -282,7 +288,8 @@ export default {
         name: this.name,
         serving: this.serving,
         itemtype,
-        stock: this.stock
+        stock: this.stock,
+        critical: this.critical
       };
       try {
         const res = await this.$axios.patch(`/api/ingredient/${this.id}`, formData);
