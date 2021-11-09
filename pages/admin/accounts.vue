@@ -4,9 +4,19 @@
     <v-row>
       <v-col>
         <v-card outlined class="pa-3">
-          <h3 class="text-h3 ml-4 mt-2 mb-2">
-            Admin Management
-          </h3>
+          <v-row>
+            <v-col>
+              <v-card-actions>
+                <h3 class="text-h3 ml-4 mt-2 mb-2">
+                  Admin Management
+                </h3>
+                <v-spacer />
+                <v-btn color="primary" large class="px-4" @click="actionDisplay = 'add'">
+                  Add Admin
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
@@ -19,25 +29,6 @@
         </v-row>
       </v-col>
       <v-col>
-        <v-row>
-          <v-col>
-            <v-card class="d-inline-flex align-center pr-4">
-              <v-card-title>Actions</v-card-title>
-              <v-btn color="primary" class="mr-4" @click="actionDisplay = 'add'">
-                Add Admin
-              </v-btn>
-              <v-btn color="secondary" class="mr-4" @click="actionDisplay = 'edit'">
-                Edit Admin
-              </v-btn>
-              <v-btn color="error" class="mr-4" @click="actionDisplay = 'delete'">
-                Delete Admin
-              </v-btn>
-              <v-btn color="error" outlined @click="actionDisplay = ''">
-                Close
-              </v-btn>
-            </v-card>
-          </v-col>
-        </v-row>
         <v-row>
           <v-col>
             <!-- Add account -->
@@ -152,7 +143,7 @@ export default {
   },
   watch: {
     actionDisplay () {
-      if (this.actionDisplay === '') {
+      if (this.actionDisplay === '' || this.actionDisplay === 'add') {
         this.form = {
           _id: '',
           email: '',
