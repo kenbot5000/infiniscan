@@ -41,6 +41,9 @@
                 <a href="javascript:void(0)" class="ml-2">Copy ID</a>
               </CopyToClipboard>
             </template>
+            <template #[`item.stock`]="{ item }">
+              {{ item.stock }} Servings
+            </template>
           </v-data-table>
           <v-data-table
             v-if="tab == 'food'"
