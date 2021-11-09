@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height class="px-9">
+  <v-container class="px-9 mt-4">
     <v-row>
       <!-- Orders -->
       <v-col>
@@ -31,6 +31,7 @@ import OrderView from '@/components/OrderView';
 import StockView from '@/components/StockView';
 
 export default {
+  name: 'AdminDashboard',
   components: {
     OrderView,
     StockView
