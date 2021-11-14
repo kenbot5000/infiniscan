@@ -5,7 +5,7 @@
       <v-col>
         <v-card class="pa-4">
           <h3 class="text-h3 ml-2 mt-2 mb-4">
-            Stock Managment
+            Stock Management
           </h3>
           <div v-if="editMode">
             <v-btn color="error" @click="editMode = false">
