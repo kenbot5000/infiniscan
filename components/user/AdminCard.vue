@@ -24,12 +24,14 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="warning" @click="loadAdmin('edit')">
-        Edit Admin
-      </v-btn>
-      <v-btn color="error" @click="loadAdmin('delete')">
-        Delete Admin
-      </v-btn>
+      <v-btn-toggle>
+        <v-btn color="warning" rounded @click="loadAdmin('edit')">
+          <v-icon>mdi-pencil-outline</v-icon>
+        </v-btn>
+        <v-btn color="error" rounded @click="loadAdmin('delete')">
+          <v-icon>mdi-delete-outline</v-icon>
+        </v-btn>
+      </v-btn-toggle>
     </v-card-actions>
   </v-card>
 </template>

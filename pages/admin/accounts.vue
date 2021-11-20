@@ -11,8 +11,8 @@
                   Admin Management
                 </h3>
                 <v-spacer />
-                <v-btn color="primary" large class="px-4" @click="actionDisplay = 'add'">
-                  Add Admin
+                <v-btn color="primary" large class="px-4" rounded @click="actionDisplay = 'add'">
+                  <v-icon>mdi-plus</v-icon> Add
                 </v-btn>
               </v-card-actions>
             </v-col>
@@ -51,7 +51,7 @@
               </v-card-actions>
             </v-card>
             <!-- Edit Account -->
-            <!--
+
             <v-card v-if="actionDisplay == 'edit'" class="pb-4">
               <v-card-title>Edit Admin</v-card-title>
               <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to edit it.</span>
@@ -82,9 +82,9 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
-            -->
+
             <!-- Delete Account -->
-            <!--
+
             <v-card v-if="actionDisplay == 'delete'" class="pb-4">
               <v-card-title>Delete Admin</v-card-title>
               <span v-if="form._id == ''" class="text-subtitle-2 ml-4">Choose a card from the left to delete it.</span>
@@ -99,7 +99,6 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
-            -->
           </v-col>
         </v-row>
       </v-col>
