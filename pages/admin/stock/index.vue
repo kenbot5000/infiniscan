@@ -5,7 +5,7 @@
       <v-col>
         <v-card class="pa-4">
           <h3 class="text-h3 ml-2 mt-2 mb-4">
-            Stock Managment
+            Stock Management
           </h3>
           <div v-if="editMode">
             <v-btn color="error" @click="editMode = false">
@@ -40,6 +40,10 @@
               <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
                 <a href="javascript:void(0)" class="ml-2">Copy ID</a>
               </CopyToClipboard>
+            </template>
+            <template #[`item.stock`]="{ item }">
+              <span v-if="item.critical && item.stock <= item.critical" class="error--text"><v-chip color="error" class="mr-2" small>NEEDS RESTOCK</v-chip> {{ item.stock }} Servings</span>
+              <span v-else>{{ item.stock }} Servings</span>
             </template>
           </v-data-table>
           <v-data-table

@@ -4,9 +4,19 @@
     <v-row>
       <v-col>
         <v-card outlined class="pa-3">
-          <h3 class="text-h3 ml-4 mt-2 mb-2">
-            Admin Management
-          </h3>
+          <v-row>
+            <v-col>
+              <v-card-actions>
+                <h3 class="text-h3 ml-4 mt-2 mb-2">
+                  Admin Management
+                </h3>
+                <v-spacer />
+                <v-btn color="primary" large class="px-4" @click="actionDisplay = 'add'">
+                  Add Admin
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
@@ -137,7 +147,7 @@ export default {
   },
   watch: {
     actionDisplay () {
-      if (this.actionDisplay === '') {
+      if (this.actionDisplay === '' || this.actionDisplay === 'add') {
         this.form = {
           _id: '',
           email: '',

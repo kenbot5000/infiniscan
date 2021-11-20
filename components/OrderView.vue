@@ -56,7 +56,7 @@
         <v-btn color="warning" class="darken-2" depressed>
           Cancel Order
         </v-btn>
-        <v-btn color="primary" depressed>
+        <v-btn color="primary" depressed @click="$emit('show-accept', content)">
           Accept Order
         </v-btn>
       </v-card-actions>

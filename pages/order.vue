@@ -60,6 +60,22 @@
           </v-card-actions>
         </v-col>
       </v-row>
+
+      <!-- Order for confirmation -->
+      <v-card-text v-if="orderData.status == 'confirmation'">
+        Your order is ready to claim! Have a staff member scan your code to claim your order.
+        <v-alert type="info" class="mt-3">
+          Note: This QR code is not the same as your account QR, and this varies with every new order.
+        </v-alert>
+      </v-card-text>
+
+      <v-row v-if="orderData.status == 'confirmation'">
+        <v-col>
+          <v-card-actions class="d-flex justify-center">
+            <canvas id="canvas" />
+          </v-card-actions>
+        </v-col>
+      </v-row>
     </v-card>
     <v-card class="mt-4">
       <v-card-actions v-if="orderData.status == 'cart'">
@@ -72,6 +88,7 @@
 </template>
 
 <script>
+import QRCode from 'qrcode';
 import Snackbar from '@/components/Snackbar';
 
 export default {
@@ -108,6 +125,10 @@ export default {
     const { data } = await this.$axios.get(`/api/order?user=${userID.id}&active=true`);
     if (data.res[0]) {
       this.orderData = data.res[0];
+    }
+    if (this.orderData.status === 'confirmation') {
+      await this.$nextTick();
+      QRCode.toCanvas(document.getElementById('canvas'), `infiniscan:${this.orderData._id}`);
     }
   },
   methods: {

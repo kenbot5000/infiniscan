@@ -42,7 +42,10 @@ export default {
       items: [
         { icon: 'mdi-home', text: 'Home', link: '/' },
         { icon: 'mdi-basket', text: 'Your Order', link: 'order' },
-        { icon: 'mdi-account', text: 'Account', link: 'account', disabled: true }
+        { icon: 'mdi-archive', text: 'Order History', link: 'history' },
+        { icon: 'mdi-account', text: 'Account', link: 'account' },
+        { icon: 'mdi-currency-usd', text: 'Rewards', link: 'rewards', disabled: true },
+        { icon: 'mdi-cog', text: 'Settings', link: 'settings', disabled: true }
       ]
     };
   },
