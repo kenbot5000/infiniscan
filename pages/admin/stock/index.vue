@@ -7,25 +7,34 @@
           <h3 class="text-h3 ml-2 mt-2 mb-4">
             Stock Management
           </h3>
-          <div v-if="editMode">
-            <v-btn color="error" @click="editMode = false">
-              Exit Edit Mode
-            </v-btn>
-          </div>
-          <div v-if="deleteMode">
-            <v-btn color="error" @click="deleteMode = false">
-              Exit Archive Mode
-            </v-btn>
-          </div>
-          <v-tabs>
-            <v-tab @click="tab = 'ingredient'">
-              Ingredients
-            </v-tab>
-            <v-tab @click="tab = 'food'">
-              Food Items
-            </v-tab>
-          </v-tabs>
+          <v-row>
+            <v-col cols="auto">
+              <v-tabs>
+                <v-tab @click="tab = 'ingredient'">
+                  Ingredients
+                </v-tab>
+                <v-tab @click="tab = 'food'">
+                  Food Items
+                </v-tab>
+              </v-tabs>
+            </v-col>
+            <v-col v-if="editMode || deleteMode" cols="2">
+              <div v-if="editMode">
+                <v-btn color="error" @click="editMode = false">
+                  Exit Edit Mode
+                </v-btn>
+              </div>
+              <div v-if="deleteMode">
+                <v-btn color="error" outlined @click="deleteMode = false">
+                  <v-icon>mdi-close-circle</v-icon>
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+
           <v-divider />
+
+          <!-- INGREDIENT TABLE -->
           <v-data-table
             v-if="tab == 'ingredient'"
             :headers="ingredientTable.headers"
@@ -38,14 +47,28 @@
             <template #[`item._id`]="{ item }">
               {{ item.displayID }}
               <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
-                <a href="javascript:void(0)" class="ml-2">Copy ID</a>
+                <v-btn icon color="primary" x-small>
+                  <v-icon>mdi-content-copy</v-icon>
+                </v-btn>
               </CopyToClipboard>
             </template>
             <template #[`item.stock`]="{ item }">
               <span v-if="item.critical && item.stock <= item.critical" class="error--text"><v-chip color="error" class="mr-2" small>NEEDS RESTOCK</v-chip> {{ item.stock }} Servings</span>
               <span v-else>{{ item.stock }} Servings</span>
             </template>
+            <template #[`item.edit`]="{ item }">
+              <v-btn color="warning" @click="toggleDialog('edit', item._id)">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <template #[`item.delete`]="{ item }">
+              <v-btn color="error" @click="toggleDialog('delete', item._id)">
+                <v-icon>mdi-archive-plus</v-icon>
+              </v-btn>
+            </template>
           </v-data-table>
+
+          <!-- FOOD TABLE -->
           <v-data-table
             v-if="tab == 'food'"
             :headers="foodTable.headers"
@@ -58,12 +81,14 @@
             <template #[`item._id`]="{ item }">
               {{ item.displayID }}
               <CopyToClipboard :text="item._id" @copy="$refs.Snackbar.show('Copied to clipboard!')">
-                <a href="javascript:void(0)" class="ml-2">Copy ID</a>
+                <v-btn icon color="primary" x-small>
+                  <v-icon>mdi-content-copy</v-icon>
+                </v-btn>
               </CopyToClipboard>
             </template>
             <template #[`item.ingredients`]="{ item }">
               <v-btn color="accent" @click="loadIngredientDialog(item.ingredients)">
-                View Ingredients
+                Ingredients
               </v-btn>
             </template>
             <template #[`item.price`]="{ item }">
@@ -71,12 +96,12 @@
             </template>
             <template #[`item.edit`]="{ item }">
               <v-btn color="warning" @click="toggleDialog('edit', item._id)">
-                Edit This
+                <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
             <template #[`item.delete`]="{ item }">
               <v-btn color="error" @click="toggleDialog('delete', item._id)">
-                Archive This
+                <v-icon>mdi-archive-plus</v-icon>
               </v-btn>
             </template>
           </v-data-table>
@@ -89,9 +114,12 @@
       <v-card>
         <v-card-title>Item Ingredients</v-card-title>
         <div class="mx-4 mt-4">
-          WIP
-          <v-card v-for="ingredient in ingredientViewItems" :key="`view-${ingredient._id}`">
-            {{ ingredient.name }}
+          <v-card outlined>
+            <v-list>
+              <v-list-item v-for="ingredient in ingredientViewItems" :key="`view-${ingredient._id}`">
+                {{ ingredient.name }}
+              </v-list-item>
+            </v-list>
           </v-card>
         </div>
         <v-card-actions>
@@ -126,18 +154,12 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
 
-      <v-btn v-if="tab == 'ingredient'" fab large color="warning" @click="toggleDialog('edit')">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn v-if="tab == 'food'" fab large color="warning" @click="toggleDialog('editMode')">
+      <v-btn fab large color="warning" @click="toggleDialog('editMode')">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
 
-      <v-btn v-if="tab == 'ingredient'" fab large color="error" @click="toggleDialog('delete')">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-      <v-btn v-if="tab == 'food'" fab large color="error" @click="toggleDialog('deleteMode')">
-        <v-icon>mdi-delete</v-icon>
+      <v-btn fab large color="error" @click="toggleDialog('deleteMode')">
+        <v-icon>mdi-archive</v-icon>
       </v-btn>
     </v-speed-dial>
 
@@ -219,25 +241,27 @@ export default {
       }
     },
     editMode () {
+      const tab = this.tab === 'ingredient' ? 'ingredientTable' : 'foodTable';
       if (this.editMode) {
-        this.foodTable.headers.push({
+        this[tab].headers.push({
           text: 'Edit',
           sortable: false,
           value: 'edit'
         });
       } else {
-        this.foodTable.headers.pop();
+        this[tab].headers.pop();
       }
     },
     deleteMode () {
+      const tab = this.tab === 'ingredient' ? 'ingredientTable' : 'foodTable';
       if (this.deleteMode) {
-        this.foodTable.headers.push({
+        this[tab].headers.push({
           text: 'Archive',
           sortable: false,
           value: 'delete'
         });
       } else {
-        this.foodTable.headers.pop();
+        this[tab].headers.pop();
       }
     }
   },
@@ -247,30 +271,22 @@ export default {
   },
   methods: {
     toggleDialog (type = '', id) {
-      if (this.tab === 'ingredient') {
-        // Ensures that the prop is set to false to trigger the change
+      if (type === 'add') {
         this.showDialog = false;
         this.showDialog = true;
         this.dialogType = type;
       }
-      if (this.tab === 'food') {
-        if (type === 'add') {
-          this.showDialog = false;
-          this.showDialog = true;
-          this.dialogType = type;
-        }
-        if (type === 'editMode') {
-          this.editMode = true;
-        }
-        if (type === 'deleteMode') {
-          this.deleteMode = true;
-        }
-        if (type === 'edit' || type === 'delete') {
-          this.showDialog = false;
-          this.showDialog = true;
-          this.dialogType = type;
-          this.$refs.FoodDialogs.id = id;
-        }
+      if (type === 'editMode') {
+        this.editMode = true;
+      }
+      if (type === 'deleteMode') {
+        this.deleteMode = true;
+      }
+      if (type === 'edit' || type === 'delete') {
+        this.showDialog = false;
+        this.showDialog = true;
+        this.dialogType = type;
+        this.$refs.FoodDialogs.id = id;
       }
     },
     hideDialog () {
