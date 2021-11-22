@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height fluid class="secondary darken-3">
     <v-row>
-      <v-col cols="6" offset="1">
+      <v-col cols="12" md="6" offset-md="1">
         <v-card class="pa-4">
           <v-container>
             <h3 class="text-h4">
