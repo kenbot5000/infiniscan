@@ -51,6 +51,9 @@
               <v-btn v-if="tab == 'confirmation'" color="primary" @click="openConfirmationDialog(item)">
                 Complete Order
               </v-btn>
+              <v-btn v-if="tab == 'completed' || tab == 'cancelled'" color="error" @click="moveToArchive(item)">
+                Archive This
+              </v-btn>
             </template>
           </v-data-table>
         </v-card>
@@ -193,7 +196,7 @@ export default {
   },
   watch: {
     tab () {
-      if (this.tab !== 'all' && this.tab !== 'cancelled' && this.tab !== 'completed') {
+      if (this.tab !== 'all') {
         if (!this.orderHeaders.some(o => o.text === 'Action')) {
           this.orderHeaders.push({ text: 'Action', value: 'actions', sortable: false });
         }
@@ -306,6 +309,13 @@ export default {
         this.$refs.Snackbar.show(res.data.res);
         this.getOrders();
         this.showConfirmationDialog = false;
+      }
+    },
+    async moveToArchive (item) {
+      const res = await this.$axios.delete(`/api/order/archive/${item._id}`);
+      if (res) {
+        this.$refs.Snackbar.show(res.data.res);
+        this.getOrders();
       }
     }
   }

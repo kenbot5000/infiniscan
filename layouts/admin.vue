@@ -20,7 +20,7 @@
             <v-list-item-icon><v-icon>mdi-cash-register</v-icon></v-list-item-icon>
             <v-list-item-title>Orders</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/orders/archive" disabled>
+          <v-list-item to="/admin/order/archive">
             <v-list-item-icon><v-icon>mdi-cash-lock</v-icon></v-list-item-icon>
             <v-list-item-title>Order Archive</v-list-item-title>
           </v-list-item>
