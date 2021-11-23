@@ -91,11 +91,11 @@
               <v-form v-else class="mx-4 pr-4">
                 <v-text-field v-model="form._id" label="ID" readonly filled />
                 <v-text-field v-model="form.email" label="Email" readonly filled />
-                <v-switch v-model="confirmDelete" color="error" label="I am sure I want to delete this." />
+                <v-switch v-model="confirmDelete" color="error" label="I am sure I want to archive this." />
               </v-form>
               <v-card-actions>
                 <v-btn v-if="form._id !== ''" color="error" :disabled="!confirmDelete" @click="deleteAdmin">
-                  Delete Account
+                  Archive Account
                 </v-btn>
               </v-card-actions>
             </v-card>
