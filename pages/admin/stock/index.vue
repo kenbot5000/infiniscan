@@ -164,7 +164,14 @@
     </v-speed-dial>
 
     <!-- Dialogs -->
-    <IngredientDialogs v-if="tab == 'ingredient'" :show-dialog="showDialog" :type="dialogType" @hideDialog="hideDialog" @updateTable="getIngredients" />
+    <IngredientDialogs
+      v-if="tab == 'ingredient'"
+      ref="IngredientDialogs"
+      :show-dialog="showDialog"
+      :type="dialogType"
+      @hideDialog="hideDialog"
+      @updateTable="getIngredients"
+    />
     <FoodDialogs
       v-if="tab == 'food'"
       ref="FoodDialogs"
@@ -286,7 +293,11 @@ export default {
         this.showDialog = false;
         this.showDialog = true;
         this.dialogType = type;
-        this.$refs.FoodDialogs.id = id;
+        if (this.tab === 'food') {
+          this.$refs.FoodDialogs.id = id;
+        } else {
+          this.$refs.IngredientDialogs.id = id;
+        }
       }
     },
     hideDialog () {

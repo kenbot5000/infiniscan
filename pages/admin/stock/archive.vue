@@ -25,10 +25,12 @@
             <template #top>
               <v-text-field v-model="ingredientTable.search" label="Search" class="mx-4" />
             </template>
-            <template #[`item.action`]="{ item }">
+            <template #[`item.edit`]="{ item }">
               <v-btn color="warning" @click="showArchiveStockDialog('restore', item)">
                 Restore
               </v-btn>
+            </template>
+            <template #[`item.delete`]="{ item }">
               <v-btn color="error" @click="showArchiveStockDialog('delete', item)">
                 Delete
               </v-btn>
@@ -46,10 +48,12 @@
             <template #[`item.ingredients`]="{ item }">
               <span class="text-subtitle-2 text--secondary">{{ item.ingredients.length }} Ingredients </span>
             </template>
-            <template #[`item.action`]="{ item }">
+            <template #[`item.edit`]="{ item }">
               <v-btn color="warning" @click="showArchiveStockDialog('restore', item)">
                 Restore
               </v-btn>
+            </template>
+            <template #[`item.delete`]="{ item }">
               <v-btn color="error" @click="showArchiveStockDialog('delete', item)">
                 Delete
               </v-btn>
@@ -109,7 +113,8 @@ export default {
           { text: 'Serving Size', sortable: false, value: 'serving' },
           { text: 'Item Type', sortable: true, filterable: true, value: 'itemtype' },
           { text: 'Stock', sortable: true, value: 'stock' },
-          { text: 'Actions', sortable: false, value: 'action' }
+          { text: 'Actions', sortable: false, value: 'edit' },
+          { text: '', sortable: false, value: 'delete' }
         ],
         table: []
       },
@@ -121,7 +126,8 @@ export default {
           { text: 'Type', sortable: true, filterable: true, value: 'type' },
           { text: 'Ingredients', sortable: false, value: 'ingredients' },
           { text: 'Price', sortable: false, value: 'price' },
-          { text: 'Actions', sortable: false, value: 'action' }
+          { text: 'Actions', sortable: false, value: 'edit' },
+          { text: '', sortable: false, value: 'delete' }
         ],
         table: []
       },
