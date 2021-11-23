@@ -53,7 +53,7 @@
               </CopyToClipboard>
             </template>
             <template #[`item.stock`]="{ item }">
-              <span v-if="item.critical && item.stock <= item.critical" class="error--text"><v-chip color="error" class="mr-2" small>NEEDS RESTOCK</v-chip> {{ item.stock }} Servings</span>
+              <span v-if="(item.critical && item.stock <= item.critical) || item.stock == 0" class="error--text"><v-chip color="error" class="mr-2" small>NEEDS RESTOCK</v-chip> {{ item.stock }} Servings</span>
               <span v-else>{{ item.stock }} Servings</span>
             </template>
             <template #[`item.edit`]="{ item }">

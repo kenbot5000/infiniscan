@@ -3,6 +3,39 @@
     <v-system-bar height="30" app color="secondary darken-3" dark>
       <span>InfiniScan Dashboard v1.0.0</span>
       <v-spacer />
+      <v-menu offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            dark
+            v-bind="attrs"
+            icon
+            x-small
+            v-on="on"
+          >
+            <v-icon v-if="lowCount > 0" color="error">
+              mdi-bell
+            </v-icon>
+            <v-icon v-else>
+              mdi-bell
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item v-if="lowCount > 0">
+            <v-list-item-text>
+              You have <v-chip color="error" x-small>
+                {{ lowCount }}
+              </v-chip> ingredients that need restocking
+            </v-list-item-text>
+          </v-list-item>
+          <v-list-item v-else>
+            <v-list-item-text>
+              You don't have any notifications
+            </v-list-item-text>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
       <span>{{ time }}</span>
     </v-system-bar>
 
@@ -81,7 +114,8 @@ export default {
     return {
       time: '',
       showNav: false,
-      showApp: true
+      showApp: true,
+      lowCount: 0
     };
   },
   watch: {
@@ -96,8 +130,14 @@ export default {
     if (!this.$cookies.get('admin')) {
       this.$router.push('/admin/login');
     }
+
+    this.getNotifications();
   },
   methods: {
+    async getNotifications () {
+      const { data } = await this.$axios.get('/notification/ingredientcount');
+      this.lowCount = data.res;
+    },
     getTime () {
       const dateString = new Date().toLocaleString('en-US');
       this.time = dateString;
