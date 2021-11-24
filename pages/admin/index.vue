@@ -77,6 +77,9 @@ export default {
     showAcceptOrderDialog (order) {
       this.acceptOrderDialog = true;
       this.activeOrder = order;
+    },
+    confirmOrder () {
+
     }
   }
 };

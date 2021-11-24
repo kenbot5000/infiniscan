@@ -73,7 +73,7 @@
             <v-list-item-icon><v-icon>mdi-wallet-giftcard</v-icon></v-list-item-icon>
             <v-list-item-title>Rewards and Promos</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/users" disabled>
+          <v-list-item to="/admin/users">
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Manage Customers</v-list-item-title>
           </v-list-item>

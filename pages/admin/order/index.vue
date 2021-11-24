@@ -206,6 +206,17 @@ export default {
     }
   },
   mounted () {
+    const text = 'Your order is ready for pickup! Head to the register to claim your order.';
+    const title = 'Your Order is Ready!';
+    const options = {
+      body: text,
+      vibrate: [200, 100, 200]
+    };
+
+    navigator.serviceWorker.ready.then(function (serviceWorker) {
+      serviceWorker.showNotification(title, options);
+    });
+
     this.getOrders();
   },
   methods: {
@@ -249,6 +260,17 @@ export default {
         this.getOrders();
         this.showOrderDetails = false;
       }
+
+      const text = 'Your order is ready for pickup! Head to the register to claim your order.';
+      const title = 'Your Order is Ready!';
+      const options = {
+        body: text,
+        vibrate: [200, 100, 200]
+      };
+
+      navigator.serviceWorker.ready.then(function (serviceWorker) {
+        serviceWorker.showNotification(title, options);
+      });
     },
     async openConfirmationDialog (itemToOpen = null) {
       this.qrAlert.show = false;

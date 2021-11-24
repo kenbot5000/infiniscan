@@ -78,8 +78,11 @@
       </v-row>
     </v-card>
     <v-card class="mt-4">
-      <v-card-actions v-if="orderData.status == 'cart'">
-        <v-btn color="success" large block @click="placeOrder">
+      <v-card-actions v-if="orderData.status == 'cart' || orderData.status == 'waiting'">
+        <v-btn v-if="orderData.status == 'cart' || orderData.status == 'waiting'" color="error" large @click="cancelOrder">
+          Cancel Order
+        </v-btn>
+        <v-btn v-if="orderData.status == 'cart'" color="success" large @click="placeOrder">
           Place Order
         </v-btn>
       </v-card-actions>
@@ -167,6 +170,17 @@ export default {
         this.$refs.Snackbar.show('Your order has been placed!');
         this.status = 'inprogress';
         this.refreshCart();
+      }
+    },
+    async cancelOrder () {
+      const body = {
+        id: this.orderData._id,
+        status: 'cancelled'
+      };
+      const { data } = await this.$axios.put('/api/order/changestatus', body);
+      if (data.res) {
+        this.$refs.Snackbar.show('Your order has been cancelled.');
+        this.status = 'cart';
       }
     }
   }
