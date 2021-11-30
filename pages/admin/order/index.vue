@@ -51,7 +51,7 @@
               <v-btn v-if="tab == 'confirmation'" color="primary" @click="openConfirmationDialog(item)">
                 Complete Order
               </v-btn>
-              <v-btn v-if="tab == 'completed' || tab == 'cancelled'" color="error" @click="moveToArchive(item)">
+              <v-btn v-if="(tab == 'completed' || tab == 'cancelled') && !$cookies.get('admin').isstandard" color="error" @click="moveToArchive(item)">
                 Archive This
               </v-btn>
             </template>

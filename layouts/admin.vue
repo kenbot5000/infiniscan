@@ -43,7 +43,7 @@
       <v-list nav flat>
         <v-list-item-group>
           <v-list-item class="text-h5" disabled>
-            Welcome, User
+            Welcome, {{ $cookies.get('admin').firstname }}
           </v-list-item>
           <v-list-item to="/admin/">
             <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>

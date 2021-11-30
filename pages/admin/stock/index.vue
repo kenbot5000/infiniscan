@@ -132,6 +132,7 @@
 
     <!-- Speed dial for dialogs -->
     <v-speed-dial
+      v-if="!$cookies.get('admin').isstandard"
       v-model="fab"
       bottom
       right

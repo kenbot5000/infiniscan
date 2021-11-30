@@ -23,7 +23,7 @@
         <v-col>{{ item.lastname }}</v-col>
       </v-row>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions v-if="!$cookies.get('admin').isstandard">
       <v-btn-toggle>
         <v-btn color="warning" rounded @click="loadAdmin('edit')">
           <v-icon>mdi-pencil-outline</v-icon>

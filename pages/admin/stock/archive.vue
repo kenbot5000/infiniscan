@@ -112,9 +112,7 @@ export default {
           { text: 'Name', sortable: true, filterable: true, value: 'name' },
           { text: 'Serving Size', sortable: false, value: 'serving' },
           { text: 'Item Type', sortable: true, filterable: true, value: 'itemtype' },
-          { text: 'Stock', sortable: true, value: 'stock' },
-          { text: 'Actions', sortable: false, value: 'edit' },
-          { text: '', sortable: false, value: 'delete' }
+          { text: 'Stock', sortable: true, value: 'stock' }
         ],
         table: []
       },
@@ -125,9 +123,7 @@ export default {
           { text: 'Name', sortable: true, filterable: true, value: 'name' },
           { text: 'Type', sortable: true, filterable: true, value: 'type' },
           { text: 'Ingredients', sortable: false, value: 'ingredients' },
-          { text: 'Price', sortable: false, value: 'price' },
-          { text: 'Actions', sortable: false, value: 'edit' },
-          { text: '', sortable: false, value: 'delete' }
+          { text: 'Price', sortable: false, value: 'price' }
         ],
         table: []
       },
@@ -148,6 +144,12 @@ export default {
   mounted () {
     this.getIngredientArchive();
     this.getFoodArchive();
+    if (!this.$cookies.get('admin').isstandard) {
+      this.ingredientTable.headers.push({ text: 'Actions', sortable: false, value: 'edit' });
+      this.ingredientTable.headers.push({ text: '', sortable: false, value: 'delete' });
+      this.foodTable.headers.push({ text: 'Actions', sortable: false, value: 'edit' });
+      this.foodTable.headers.push({ text: '', sortable: false, value: 'delete' });
+    }
   },
   methods: {
     async getIngredientArchive () {

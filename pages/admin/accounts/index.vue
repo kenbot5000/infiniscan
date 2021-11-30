@@ -11,7 +11,14 @@
                   Admin Management
                 </h3>
                 <v-spacer />
-                <v-btn color="primary" large class="px-4" rounded @click="actionDisplay = 'add'">
+                <v-btn
+                  v-show="isSuper"
+                  color="primary"
+                  large
+                  class="px-4"
+                  rounded
+                  @click="actionDisplay = 'add'"
+                >
                   <v-icon>mdi-plus</v-icon> Add
                 </v-btn>
               </v-card-actions>
@@ -75,6 +82,7 @@
                   :type="showConfirm ? 'text' : 'password'"
                   @click:append="showConfirm = !showConfirm"
                 />
+                <v-checkbox v-model="form.isstandard" label="Is superadmin?" />
               </v-form>
               <v-card-actions v-if="form._id != ''">
                 <v-btn color="primary" large width="200" @click="editAdmin">
@@ -134,9 +142,11 @@ export default {
         password: '',
         confirmpass: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
+        super: false
       },
-      confirmDelete: false
+      confirmDelete: false,
+      isSuper: false
     };
   },
   head () {
@@ -153,12 +163,16 @@ export default {
           password: '',
           confirmpass: '',
           firstname: '',
-          lastname: ''
+          lastname: '',
+          isstandard: false
         };
       }
     }
   },
   mounted () {
+    const admin = this.$cookies.get('admin');
+    this.isSuper = !admin.isstandard;
+
     this.getAllAdmin();
   },
   methods: {
@@ -179,7 +193,9 @@ export default {
         this.showAlert('Passwords do not match.');
         return;
       }
-      const res = await this.$axios.post('/api/admin', this.form);
+      const form = { ...this.form };
+      form.isstandard = !form.isstandard;
+      const res = await this.$axios.post('/api/admin', form);
       if (res.status === 201) {
         this.$refs.Snackbar.show('Admin added successfully.');
         this.getAllAdmin();
@@ -202,7 +218,9 @@ export default {
         this.showAlert('Please fill in all fields.');
         return;
       }
-      const res = await this.$axios.patch(`/api/admin/${this.form._id}`, this.form);
+      const form = { ...this.form };
+      form.isstandard = !form.isstandard;
+      const res = await this.$axios.patch(`/api/admin/${this.form._id}`, form);
       if (res.status === 200) {
         this.$refs.Snackbar.show('Admin edited successfully.');
         this.getAllAdmin();
