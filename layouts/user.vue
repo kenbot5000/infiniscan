@@ -58,6 +58,10 @@ export default {
     if (!this.$cookies.get('user')) {
       this.$router.push('/login');
     }
+
+    Notification.requestPermission(function (status) {
+      console.log('Notification permission status:', status);
+    });
   },
   methods: {
     logout () {

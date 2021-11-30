@@ -15,6 +15,10 @@ export default {
     ]
   },
 
+  env: {
+    apiUrl: process.env.API_URL
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -42,8 +46,16 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-socket-io'
   ],
+
+  io: {
+    sockets: [{
+      name: 'main',
+      url: process.env.API_URL
+    }]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   proxy: {

@@ -69,7 +69,7 @@
         </v-alert>
       </v-card-text>
 
-      <v-row v-if="orderData.status == 'confirmation'">
+      <v-row v-show="orderData.status == 'confirmation'">
         <v-col>
           <v-card-actions class="d-flex justify-center">
             <canvas id="canvas" />
@@ -104,7 +104,8 @@ export default {
     return {
       orderData: {
         status: 'none'
-      }
+      },
+      socket: null
     };
   },
   computed: {
@@ -133,6 +134,20 @@ export default {
       await this.$nextTick();
       QRCode.toCanvas(document.getElementById('canvas'), `infiniscan:${this.orderData._id}`);
     }
+
+    this.socket = this.$nuxtSocket({});
+    this.socket.emit('notification:join', userID);
+
+    // Socket Listeners
+    this.socket.on('readyforpickup', () => {
+      QRCode.toCanvas(document.getElementById('canvas'), `infiniscan:${this.orderData._id}`);
+      this.refreshCart();
+
+      if (Notification.permission === 'granted') {
+      // eslint-disable-next-line no-unused-vars
+        const notif = new Notification('Your order is ready for pickup!');
+      }
+    });
   },
   methods: {
     async addItem (itemID) {

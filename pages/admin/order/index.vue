@@ -45,7 +45,7 @@
               <v-btn v-if="tab == 'waiting'" color="info" @click="moveToInProgress(item._id)">
                 Set as In Progress
               </v-btn>
-              <v-btn v-if="tab === 'inprogress'" color="accent" @click="moveToConfirm(item._id)">
+              <v-btn v-if="tab === 'inprogress'" color="accent" @click="moveToConfirm(item._id, item.user._id)">
                 Notify User for Pickup
               </v-btn>
               <v-btn v-if="tab == 'confirmation'" color="primary" @click="openConfirmationDialog(item)">
@@ -169,7 +169,10 @@ export default {
         message: ''
       },
       qrScanner: null,
-      disableSubmitComplete: true
+      disableSubmitComplete: true,
+
+      // Socket
+      socket: null
     };
   },
   computed: {
@@ -218,6 +221,8 @@ export default {
     });
 
     this.getOrders();
+    // Connect to socket.io
+    this.socket = this.$nuxtSocket({});
   },
   methods: {
     async getOrders () {
@@ -250,7 +255,7 @@ export default {
         this.showOrderDetails = false;
       }
     },
-    async moveToConfirm (id) {
+    async moveToConfirm (id, userid) {
       const body = {
         id,
         status: 'confirmation'
@@ -262,16 +267,7 @@ export default {
         this.showOrderDetails = false;
       }
 
-      const text = 'Your order is ready for pickup! Head to the register to claim your order.';
-      const title = 'Your Order is Ready!';
-      const options = {
-        body: text,
-        vibrate: [200, 100, 200]
-      };
-
-      navigator.serviceWorker.ready.then(function (serviceWorker) {
-        serviceWorker.showNotification(title, options);
-      });
+      this.socket.emit('notification:send', { type: 'ready', id: userid });
     },
     async openConfirmationDialog (itemToOpen = null) {
       this.qrAlert.show = false;

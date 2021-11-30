@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-system-bar height="30" app color="secondary darken-3" dark>
-      <span>InfiniScan Dashboard v1.0.0</span>
+      <span>InfiniScan Dashboard v1.2.0</span>
       <v-spacer />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
@@ -65,7 +65,7 @@
             <v-list-item-icon><v-icon>mdi-archive</v-icon></v-list-item-icon>
             <v-list-item-title>Stock Archive</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/reporting" disabled>
+          <v-list-item to="/admin/reporting">
             <v-list-item-icon><v-icon>mdi-chart-areaspline</v-icon></v-list-item-icon>
             <v-list-item-title>Reporting</v-list-item-title>
           </v-list-item>

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev:host": "nuxt --hostname '0' --port 3000",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -20,6 +21,7 @@
     "html5-qrcode": "^2.1.2",
     "mongoose": "^5.12.4",
     "nuxt": "^2.15.3",
+    "nuxt-socket-io": "^2.0.0",
     "qrcode": "^1.4.4",
     "sass": "1.32.8",
     "vue-cookies": "^1.7.4",
