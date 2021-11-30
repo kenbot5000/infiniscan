@@ -8,7 +8,11 @@
               <h3 class="text-h3 ml-4 mt-2 mb-2">
                 Admin Archive
               </h3>
-              <v-data-table :headers="archiveHeaders" :items="archive" />
+              <v-data-table :headers="archiveHeaders" :items="archive" :search="search">
+                <template #top>
+                  <v-text-field v-model="search" label="Search" class="mx-4" />
+                </template>
+              </v-data-table>
             </v-col>
           </v-row>
         </v-card>
@@ -28,7 +32,8 @@ export default {
         { text: 'First Name', value: 'firstname' },
         { text: 'Last Name', value: 'lastname' }
       ],
-      archive: []
+      archive: [],
+      search: ''
     };
   },
   async mounted () {
