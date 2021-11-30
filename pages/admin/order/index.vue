@@ -240,7 +240,8 @@ export default {
     async moveToInProgress (id) {
       const body = {
         id,
-        status: 'inprogress'
+        status: 'inprogress',
+        server: this.$cookies.get('admin').id
       };
       const res = await this.$axios.put('/api/order/changestatus', body);
       if (res) {

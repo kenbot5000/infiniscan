@@ -118,6 +118,11 @@ export default {
       lowCount: 0
     };
   },
+  head () {
+    return {
+      title: 'Admin Dashboard'
+    };
+  },
   watch: {
     $route () {
       this.showApp = false;

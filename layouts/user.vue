@@ -49,6 +49,11 @@ export default {
       ]
     };
   },
+  head () {
+    return {
+      title: 'Infiniscan'
+    };
+  },
   mounted () {
     if (!this.$cookies.get('user')) {
       this.$router.push('/login');
