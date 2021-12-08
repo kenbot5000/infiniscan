@@ -26,7 +26,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/axios.js',
-    '~/plugins/cookies.js',
+    // '~/plugins/cookies.js',
     { src: '~/plugins/amplify.js', mode: 'client' }
   ],
 
@@ -47,7 +47,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    'nuxt-socket-io'
+    'nuxt-socket-io',
+    'cookie-universal-nuxt'
   ],
 
   io: {
