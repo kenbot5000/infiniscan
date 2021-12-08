@@ -12,6 +12,7 @@ module.exports = {
     'plugin:nuxt/recommended'
   ],
   plugins: [
+    '@babel'
   ],
   // add your custom rules here
   rules: {

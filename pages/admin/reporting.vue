@@ -12,16 +12,7 @@
               <h4 class="text-h4">
                 Your Total Earnings
               </h4>
-              <v-sparkline
-                padding="20"
-                :auto-line-width="true"
-                width="500"
-                :labels="earningsLabels"
-                :show-labels="true"
-                :value="earningsData"
-                stroke-linecap="round"
-                auto-draw
-              />
+              <OrderChart :height="100" />
             </v-card>
 
             <v-card outlined class="pa-4 mt-4">
@@ -32,9 +23,18 @@
 
             <!-- Table -->
             <v-card outlined class="pt-4 px-5 mt-4">
-              <v-data-table :headers="orderHeaders" :items="sortedOrderData">
+              <v-data-table :headers="orderHeaders" :items="orderData">
+                <template #[`item.user`]="{ item }">
+                  {{ item.user.firstname }} {{ item.user.lastname }}
+                </template>
                 <template #[`item.subtotal`]="{ item }">
                   ₱{{ item.subtotal }}
+                </template>
+                <template #[`item.server`]="{ item }">
+                  <span v-if="item.server">{{ item.server.firstname }}  {{ item.server.lastname }}</span>
+                </template>
+                <template #[`item.created`]="{ item }">
+                  {{ formatDateForDisplay(item.created) }}
                 </template>
               </v-data-table>
             </v-card>
@@ -46,8 +46,14 @@
 </template>
 
 <script>
+import Moment from 'moment';
+import OrderChart from '@/components/charts/OrderChart';
+
 export default {
   name: 'ReportManagement',
+  components: {
+    OrderChart
+  },
   layout: 'admin',
   data () {
     return {
@@ -57,60 +63,9 @@ export default {
         { value: 'subtotal', text: 'Subtotal' },
         { value: 'server', text: 'Served by' },
         { value: 'created', text: 'Date' }
-      ]
+      ],
+      totalEarnings: 0
     };
-  },
-  computed: {
-    sortedOrderData () {
-      let data = this.orderData.filter(o => o.created);
-      data.sort((a, b) => {
-        const date1 = new Date(a);
-        const date2 = new Date(b);
-        return date1 - date2;
-      });
-      data = data.map((o) => {
-        o.user = `${o.user.firstname} ${o.user.lastname}`;
-        o.server = o.server ? `${o.server.firstname} ${o.server.lastname}` : '-';
-
-        const d = new Date(o.created);
-        o.created = `${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}`;
-
-        return o;
-      });
-      return data;
-    },
-    earningsData () {
-      let data = this.orderData.filter(o => o.created);
-      data.sort((a, b) => {
-        const date1 = new Date(a);
-        const date2 = new Date(b);
-        return date1 - date2;
-      });
-      data = data.map(item => item.subtotal);
-      return data;
-    },
-    earningsLabels () {
-      let data = this.orderData.filter(o => o.created);
-      data.sort((a, b) => {
-        const date1 = new Date(a);
-        const date2 = new Date(b);
-        return date1 - date2;
-      });
-      data = data.map((item) => {
-        return item.created;
-        // const prop = item.created;
-        // const d = new Date(prop);
-        // return `${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}`;
-      });
-      return data;
-    },
-    totalEarnings () {
-      let total = 0;
-      for (const item of this.orderData) {
-        total += item.subtotal;
-      }
-      return total;
-    }
   },
   mounted () {
     this.getOrders();
@@ -119,6 +74,24 @@ export default {
     async getOrders () {
       const res = await this.$axios.get('/order/list?status=completed');
       this.orderData = res.data.res;
+      this.orderData.sort((a, b) => {
+        const date1 = new Date(a);
+        const date2 = new Date(b);
+        return date1 - date2;
+      });
+      const labelsArray = [];
+      const totalsArray = [];
+      for (const order of this.orderData) {
+        this.totalEarnings += order.subtotal;
+        const label = new Moment(order.created).format('MM-DD-YYYY');
+        labelsArray.push(label);
+        totalsArray.push(order.subtotal);
+      }
+    },
+    formatDateForDisplay (date) {
+      if (!date) { return '-'; } else {
+        return new Moment(date).format('MM-DD-YYYY');
+      }
     }
   }
 };
