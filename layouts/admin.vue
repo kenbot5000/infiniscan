@@ -77,11 +77,11 @@
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Manage Customers</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/accounts">
+          <v-list-item v-if="!$cookies.get('admin').isstandard" to="/admin/accounts">
             <v-list-item-icon><v-icon>mdi-account-tie</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Accounts</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/accounts/archive">
+          <v-list-item v-if="!$cookies.get('admin').isstandard" to="/admin/accounts/archive">
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Account Archive</v-list-item-title>
           </v-list-item>
