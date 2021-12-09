@@ -16,13 +16,13 @@
                   </h4>
                 </v-col>
                 <v-col>
-                  <v-btn color="primary" @click="generatePDF">
+                  <v-btn color="primary" class="float-right" @click="generatePDF">
                     <v-icon>mdi-file-pdf-box</v-icon> Generate PDF
                   </v-btn>
                 </v-col>
               </v-row>
 
-              <OrderChart :height="100" :order-data="chartData" />
+              <OrderChart v-if="loaded" :height="100" :order-data="chartData" />
             </v-card>
 
             <v-card outlined class="pa-4 mt-4">
@@ -77,7 +77,8 @@ export default {
         { value: 'created', text: 'Date' }
       ],
       totalEarnings: 0,
-      chartData: []
+      chartData: [],
+      loaded: false
     };
   },
   mounted () {
@@ -117,6 +118,7 @@ export default {
       }
 
       this.chartData = totalsPerDay;
+      this.loaded = true;
     },
     formatDateForDisplay (date) {
       if (!date) { return '-'; } else {
@@ -151,7 +153,8 @@ export default {
         theme: 'grid',
         startY: 60
       });
-      doc.save('table.pdf');
+      const title = 'Infiniscan Report  - ' + generatedDate + '.pdf';
+      doc.save(title);
     }
   }
 };
