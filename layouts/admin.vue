@@ -43,7 +43,7 @@
       <v-list nav flat>
         <v-list-item-group>
           <v-list-item class="text-h5" disabled>
-            Welcome, {{ $cookies.get('admin').firstname }}
+            Welcome, {{ admincookie.firstname }}
           </v-list-item>
           <v-list-item to="/admin/">
             <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
@@ -77,11 +77,11 @@
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Manage Customers</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="!$cookies.get('admin').isstandard" to="/admin/accounts">
+          <v-list-item v-if="admincookie.isstandard" to="/admin/accounts">
             <v-list-item-icon><v-icon>mdi-account-tie</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Accounts</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="!$cookies.get('admin').isstandard" to="/admin/accounts/archive">
+          <v-list-item v-if="admincookie.isstandard" to="/admin/accounts/archive">
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Account Archive</v-list-item-title>
           </v-list-item>
@@ -122,6 +122,11 @@ export default {
     return {
       title: 'Admin Dashboard'
     };
+  },
+  computed: {
+    admincookie () {
+      return this.$cookies.get('admin') ? this.$cookies.get('admin') : { firstname: '', isstandard: true };
+    }
   },
   watch: {
     $route () {
