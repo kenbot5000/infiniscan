@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-system-bar height="30" app color="secondary darken-3" dark>
-      <span>InfiniScan Dashboard v1.2.0</span>
+      <span>InfiniScan Dashboard v1.3.0</span>
       <v-spacer />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
