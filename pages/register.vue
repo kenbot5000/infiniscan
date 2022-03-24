@@ -15,6 +15,11 @@
             <v-text-field v-model="confirmPassword" label="Confirm Password" type="password" />
             <v-text-field v-model="firstname" label="First Name" />
             <v-text-field v-model="lastname" label="Last Name" />
+            <v-text-field v-model="phone" label="Phone" />
+            <v-text-field v-model="address1" label="Street Address" />
+            <v-text-field v-model="address2" label="House/Block No." />
+            <v-text-field v-model="barangay" label="Barangay" />
+            <v-text-field v-model="city" label="City" />
             <a href="#" @click="$router.push('/login')">Already have an account? Log in</a>
             <v-row class="mt-2">
               <v-col cols="3">
@@ -44,7 +49,12 @@ export default {
       password: '',
       confirmPassword: '',
       firstname: '',
-      lastname: ''
+      lastname: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      barangay: '',
+      city: ''
     };
   },
   methods: {
@@ -60,8 +70,15 @@ export default {
         email: this.email,
         password: this.password,
         firstname: this.firstname,
-        lastname: this.lastname
+        lastname: this.lastname,
+        phone: this.phone,
+        address1: this.address1,
+        barangay: this.barangay,
+        city: this.city
       };
+      if (this.address2) {
+        userData.address2 = this.address2;
+      }
       try {
         const res = await this.$axios.post('/api/user/auth/register', userData);
         if (res.data.res) {
