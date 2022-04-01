@@ -164,7 +164,7 @@ export default {
           confirmpass: '',
           firstname: '',
           lastname: '',
-          isstandard: false
+          super: false
         };
       }
     }
@@ -205,6 +205,7 @@ export default {
     loadAdmin (type, item) {
       this.actionDisplay = type;
       this.form = { ...item };
+      this.form.isstandard = !item.isstandard;
       this.bufferPassword = item.password;
     },
     async editAdmin () {

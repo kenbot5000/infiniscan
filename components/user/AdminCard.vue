@@ -47,7 +47,8 @@ export default {
           email: '',
           password: '',
           firstname: '',
-          lastname: ''
+          lastname: '',
+          isstandard: true
         };
       }
     }
