@@ -87,6 +87,7 @@
           </v-data-iterator>
 
           <v-text-field v-model="price" outlined label="Price" prefix="₱" />
+          <v-text-field v-model="points" outlined label="Points" />
         </v-form>
         <v-card-actions>
           <v-btn color="primary" @click="addFood">
@@ -182,6 +183,7 @@
           </v-data-iterator>
 
           <v-text-field v-model="price" outlined label="Price" prefix="₱" />
+          <v-text-field v-model="points" outlined label="Points" />
         </v-form>
         <v-card-actions>
           <v-btn color="primary" @click="editFood">
@@ -260,7 +262,8 @@ export default {
       itemtypes: [],
       itemtype: '',
       other: '',
-      price: 0.00
+      price: 0.00,
+      points: 0
     };
   },
   watch: {
@@ -345,6 +348,7 @@ export default {
       this.other = '';
       this.price = 0.0;
       this.ingredients = [];
+      this.points = 0;
     },
     addIngredient (item) {
       this.ingredients.push(item);
@@ -371,7 +375,8 @@ export default {
           name: this.name,
           type,
           ingredients: ingredientIDs,
-          price: this.price
+          price: this.price,
+          points: this.points
         };
         const res = await this.$axios.post('/api/food/', newItem);
         if (res.status === 201) {
@@ -393,7 +398,8 @@ export default {
           name: this.name,
           type,
           ingredients: ingredientIDs,
-          price: this.price
+          price: this.price,
+          points: this.points
         };
         const res = await this.$axios.patch(`/api/food/${this.id}`, newItem);
         if (res.status === 200) {

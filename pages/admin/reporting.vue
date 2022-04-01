@@ -57,7 +57,7 @@
 
 <script>
 import Moment from 'moment';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import OrderChart from '@/components/charts/OrderChart';
 

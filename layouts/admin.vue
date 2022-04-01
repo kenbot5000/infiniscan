@@ -69,7 +69,7 @@
             <v-list-item-icon><v-icon>mdi-chart-areaspline</v-icon></v-list-item-icon>
             <v-list-item-title>Reporting</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/rewards" disabled>
+          <v-list-item to="/admin/rewards">
             <v-list-item-icon><v-icon>mdi-wallet-giftcard</v-icon></v-list-item-icon>
             <v-list-item-title>Rewards and Promos</v-list-item-title>
           </v-list-item>

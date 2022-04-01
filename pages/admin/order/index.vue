@@ -54,6 +54,9 @@
               <v-btn v-if="(tab == 'completed' || tab == 'cancelled') && !$cookies.get('admin').isstandard" color="error" @click="moveToArchive(item)">
                 Archive This
               </v-btn>
+              <v-btn v-if="(tab != 'completed' && tab != 'cancelled') && !$cookies.get('admin').isstandard" color="error" @click="cancelOrder(item._id)">
+                Cancel Order
+              </v-btn>
             </template>
           </v-data-table>
         </v-card>
@@ -335,6 +338,18 @@ export default {
       if (res) {
         this.$refs.Snackbar.show(res.data.res);
         this.getOrders();
+      }
+    },
+    async cancelOrder (id) {
+      const body = {
+        id,
+        status: 'cancelled'
+      };
+      const res = await this.$axios.put('/api/order/changestatus', body);
+      if (res) {
+        this.$refs.Snackbar.show(res.data.res);
+        this.getOrders();
+        this.showOrderDetails = false;
       }
     }
   }

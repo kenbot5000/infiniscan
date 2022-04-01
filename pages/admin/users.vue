@@ -36,7 +36,10 @@ export default {
         { text: 'Email', value: 'email' },
         { text: 'First Name', value: 'firstname' },
         { text: 'Last Name', value: 'lastname' },
-        { text: 'Rewards Points', value: 'points' }
+        { text: 'Rewards Points', value: 'points' },
+        { text: 'Phone No.', value: 'phone' },
+        { text: 'Address', value: 'address' },
+        { text: 'Confirmed Email?', value: 'confirmed' }
       ],
       items: [],
       search: ''

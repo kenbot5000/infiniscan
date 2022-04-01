@@ -124,6 +124,13 @@ export default {
       return foodData;
     }
   },
+  watch: {
+    'orderData.status' (val) {
+      if (val === 'cancelled') {
+        this.orderData.items = [];
+      }
+    }
+  },
   async mounted () {
     const userID = this.$cookies.get('user');
     const { data } = await this.$axios.get(`/api/order?user=${userID.id}&active=true`);
@@ -195,6 +202,7 @@ export default {
       const { data } = await this.$axios.put('/api/order/changestatus', body);
       if (data.res) {
         this.$refs.Snackbar.show('Your order has been cancelled.');
+        this.orderData.items = [];
         this.status = 'cart';
       }
     }
