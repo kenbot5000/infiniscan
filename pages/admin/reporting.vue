@@ -154,6 +154,7 @@ export default {
         startY: 60
       });
       const title = 'Infiniscan Report  - ' + generatedDate + '.pdf';
+      doc.text('_____________', 196, 285);
       doc.save(title);
     }
   }

@@ -189,6 +189,7 @@ export default {
       };
       const { data } = await this.$axios.put('/api/order/changestatus', body);
       if (data.res) {
+        this.socket.emit('notification:send', { type: 'neworder' });
         this.$refs.Snackbar.show('Your order has been placed!');
         this.status = 'inprogress';
         this.refreshCart();
