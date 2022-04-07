@@ -71,14 +71,19 @@ export default {
     if (this.$cookies.get('user')) {
       this.userID = this.$cookies.get('user').id;
     }
+
+    const res = await this.$axios.get(`/api/user/${this.userID}`);
+    console.log(res.data.res?.confirmed);
+    if ((res.data.res?.confirmed !== undefined) && !res.data.res.confirmed) {
+      console.log('asdjflkadsjf');
+      this.showAlert('Your email is not yet verified. Check your email for verification link.');
+    }
   },
   methods: {
     showAlert (msg, type = 'warning') {
-      this.alert = {
-        show: true,
-        type,
-        message: msg
-      };
+      this.alert.show = true;
+      this.alert.type = type;
+      this.alert.message = msg;
     },
     async addToCart (item) {
       this.alert.show = false;
