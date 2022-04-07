@@ -7,6 +7,9 @@
           <h3 class="text-h3 ml-2 mt-2 mb-4">
             Rewards
           </h3>
+          <v-btn v-if="editMode || deleteMode" color="error" @click="close">
+            Close
+          </v-btn>
           <v-container class="mt-3">
             <v-data-table id="rewardEarnTable" :headers="rewardEarnHeaders" :items="rewardEarnData">
               <template #[`item.edit`]="{ item }">
@@ -27,6 +30,20 @@
 
     <AddRewardEarnDialog
       ref="AddRewardEarnDialog"
+      @snackbar="sendMessage"
+      @update-reward-earn="getEarnItems"
+    />
+
+    <EditRewardEarnDialog
+      ref="EditRewardEarnDialog"
+      :selected-item="selectedItem"
+      @snackbar="sendMessage"
+      @update-reward-earn="getEarnItems"
+    />
+
+    <DeleteRewardEarnDialog
+      ref="DeleteRewardEarnDialog"
+      :selected-item="selectedItem"
       @snackbar="sendMessage"
       @update-reward-earn="getEarnItems"
     />
@@ -69,12 +86,16 @@
 <script>
 import Snackbar from '@/components/Snackbar';
 import AddRewardEarnDialog from '@/components/rewards/AddRewardEarnDialog';
+import EditRewardEarnDialog from '@/components/rewards/EditRewardEarnDialog';
+import DeleteRewardEarnDialog from '@/components/rewards/DeleteRewardEarnDialog';
 
 export default {
   name: 'RewardsManagement',
   components: {
     Snackbar,
-    AddRewardEarnDialog
+    AddRewardEarnDialog,
+    EditRewardEarnDialog,
+    DeleteRewardEarnDialog
   },
   layout: 'admin',
   data () {
@@ -105,6 +126,17 @@ export default {
       } else {
         this.rewardEarnHeaders.pop();
       }
+    },
+    deleteMode (on) {
+      if (on) {
+        this.rewardEarnHeaders.push({
+          text: 'Reset',
+          sortable: false,
+          value: 'delete'
+        });
+      } else {
+        this.rewardEarnHeaders.pop();
+      }
     }
   },
   mounted () {
@@ -120,6 +152,15 @@ export default {
     },
     editRewardEarn (item) {
       this.selectedItem = item;
+      this.$refs.EditRewardEarnDialog.showDialog = true;
+    },
+    deleteRewardEarn (item) {
+      this.selectedItem = item;
+      this.$refs.DeleteRewardEarnDialog.showDialog = true;
+    },
+    close () {
+      this.editMode = false;
+      this.deleteMode = false;
     }
     // deleteRewardEarn(item) {
     //   this.selectedItem = item;

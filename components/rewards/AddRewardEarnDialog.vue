@@ -26,6 +26,7 @@
             </v-card>
           </template>
         </v-data-iterator>
+        <span v-if="selectedItem">Selected Item: {{ selectedItem.name }}</span>
         <v-text-field v-model="points" label="Points" />
       </v-form>
       <v-card-actions>
@@ -55,7 +56,8 @@ export default {
     async searchFood () {
       if (this.searchFood === '') { return; }
       const { data } = await this.$axios.get(`/api/food?search=${this.searchFood}&noReward=true`);
-      this.searchResults = data;
+      // console.log(data);
+      this.searchResults = data.res;
     }
   },
   methods: {
