@@ -215,6 +215,14 @@ export default {
     this.getOrders();
     // Connect to socket.io
     this.socket = this.$nuxtSocket({});
+    const admin = this.$cookies.get('admin');
+    this.socket.emit('notification:join', admin);
+
+    this.socket.on('neworder', () => {
+      console.log('neworder event received');
+      this.$refs.Snackbar.show('A new order has arrived!');
+      this.getOrders();
+    });
   },
   methods: {
     async getOrders () {
