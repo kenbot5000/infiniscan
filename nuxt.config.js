@@ -64,7 +64,19 @@ export default {
   },
 
   axios: {
-    credentials: false
+    baseURL: 'http://localhost:5000', // Used as fallback if no runtime config is provided
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.API_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.API_URL
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
