@@ -27,8 +27,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in stockData" :key="item.id">
-                <td>{{ item.displayId }}</td>
+              <tr v-for="item in stockData" :key="item._id">
+                <td>{{ item.displayID }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.serving }}</td>
                 <td v-if="item.stock > 0">
@@ -52,21 +52,28 @@
 export default {
   data () {
     return {
-      stockData: [
-        { id: 1, name: 'Choco Powder', serving: '100g', stock: 7 },
-        { id: 2, name: 'Cream Cheese Powder', serving: '100g', stock: 10 },
-        { id: 3, name: 'Lychee Syrup', serving: '50mL', stock: 5 },
-        { id: 4, name: 'Simple Syrup', serving: '25mL', stock: 18 },
-        { id: 5, name: 'Strawberry Syrup', serving: '50mL', stock: 0 }
-      ]
+      stockData: []
     };
+  },
+  async mounted () {
+    const { data } = await this.$axios.get('/api/ingredient');
+    this.stockData = data.res;
+    this.stockData.sort((a, b) => {
+      if (typeof a.displayID === 'undefined' && typeof b.displayID === 'undefined') { return 0; }
+      if (typeof a.displayID === 'undefined') { return 1; }
+      if (typeof b.displayID === 'undefined') { return -1; }
+      return a.displayID - b.displayID;
+    });
   },
   methods: {
     sortBy (type = 'id') {
       switch (type) {
         case 'id' :
           this.stockData.sort((a, b) => {
-            return a.id - b.id;
+            if (typeof a.displayID === 'undefined' && typeof b.displayID === 'undefined') { return 0; }
+            if (typeof a.displayID === 'undefined') { return 1; }
+            if (typeof b.displayID === 'undefined') { return -1; }
+            return a.displayID - b.displayID;
           });
           break;
         case 'stock' :
