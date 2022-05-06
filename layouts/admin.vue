@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-system-bar height="30" app color="secondary darken-3" dark>
-      <span>InfiniScan Dashboard v1.3.0</span>
+      <span>InfiniScan Dashboard v1.4.0</span>
       <v-spacer />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
@@ -73,15 +73,15 @@
             <v-list-item-icon><v-icon>mdi-wallet-giftcard</v-icon></v-list-item-icon>
             <v-list-item-title>Rewards</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/admin/users">
+          <v-list-item v-if="!admincookie.isstandard" to="/admin/users">
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Manage Customers</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="admincookie.isstandard" to="/admin/accounts">
+          <v-list-item v-if="!admincookie.isstandard" to="/admin/accounts">
             <v-list-item-icon><v-icon>mdi-account-tie</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Accounts</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="admincookie.isstandard" to="/admin/accounts/archive">
+          <v-list-item v-if="!admincookie.isstandard" to="/admin/accounts/archive">
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Admin Account Archive</v-list-item-title>
           </v-list-item>
