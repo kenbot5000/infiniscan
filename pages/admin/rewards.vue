@@ -5,7 +5,7 @@
       <v-col>
         <v-card class="pa-4">
           <h3 class="text-h3 ml-2 mt-2 mb-4">
-            Rewards
+            Rewards Earning
           </h3>
           <v-btn v-if="editMode || deleteMode" color="error" @click="close">
             Close
@@ -80,6 +80,8 @@
         <v-icon>mdi-restart</v-icon>
       </v-btn>
     </v-speed-dial>
+
+    <RewardsClaimView @snackbar="sendMessage" />
   </v-container>
 </template>
 
@@ -89,13 +91,16 @@ import AddRewardEarnDialog from '@/components/rewards/AddRewardEarnDialog';
 import EditRewardEarnDialog from '@/components/rewards/EditRewardEarnDialog';
 import DeleteRewardEarnDialog from '@/components/rewards/DeleteRewardEarnDialog';
 
+import RewardsClaimView from '@/components/RewardsClaimView';
+
 export default {
   name: 'RewardsManagement',
   components: {
     Snackbar,
     AddRewardEarnDialog,
     EditRewardEarnDialog,
-    DeleteRewardEarnDialog
+    DeleteRewardEarnDialog,
+    RewardsClaimView
   },
   layout: 'admin',
   data () {
