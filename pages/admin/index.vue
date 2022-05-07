@@ -70,16 +70,26 @@ export default {
     };
   },
   async mounted () {
-    const res = await this.$axios.get('/order/list?status=waiting');
-    this.orders = res.data.res;
+    await this.getWaitingOrders();
   },
   methods: {
+    async getWaitingOrders () {
+      const res = await this.$axios.get('/order/list?status=waiting');
+      this.orders = res.data.res;
+    },
     showAcceptOrderDialog (order) {
       this.acceptOrderDialog = true;
       this.activeOrder = order;
     },
-    confirmOrder () {
-
+    async confirmOrder () {
+      const body = {
+        id: this.activeOrder._id,
+        status: 'inprogress'
+      };
+      const { data } = await this.$axios.get('/order/changestatus', body);
+      if (data) {
+        this.getWaitingOrders();
+      }
     }
   }
 };

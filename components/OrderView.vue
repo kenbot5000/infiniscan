@@ -1,10 +1,39 @@
 <template>
   <v-container>
+    <v-dialog
+      v-model="showCustomerDialog"
+      width="500"
+    >
+      <v-card class="px-4 py-3">
+        <v-card-text>
+          <p class="text-h4 text--primary">
+            {{ fullname }}
+          </p>
+          <div class="text--primary mt-2">
+            <ul>
+              <li v-if="selectedCustomer.displayID">
+                <b class="mr-2">ID:</b>{{ selectedCustomer.displayID }}
+              </li>
+              <li><b class="mr-2">Email:</b>{{ selectedCustomer.email }}</li>
+              <li v-if="selectedCustomer.phone">
+                <b class="mr-2">Phone:</b>{{ selectedCustomer.phone }}
+              </li>
+            </ul>
+          </div>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn color="error" @click="showCustomerDialog = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <div class="d-flex justify-space-between">
       <h4 class="text-h5">
         Customer Name: {{ fullname }}
       </h4>
-      <v-btn color="primary" class="darken-2" plain>
+      <v-btn color="primary" class="darken-2" plain @click="loadCustomerInfo(content.user._id)">
         View Customer Info
       </v-btn>
     </div>
@@ -53,9 +82,9 @@
         </v-list-item> -->
       <v-card-actions class="mb-4">
         <v-spacer />
-        <v-btn color="warning" class="darken-2" depressed>
+        <!-- <v-btn color="warning" class="darken-2" depressed>
           Cancel Order
-        </v-btn>
+        </v-btn> -->
         <v-btn color="primary" depressed @click="$emit('show-accept', content)">
           Accept Order
         </v-btn>
@@ -85,7 +114,9 @@ export default {
   },
   data () {
     return {
-      items: []
+      items: [],
+      showCustomerDialog: false,
+      selectedCustomer: {}
     };
   },
   computed: {
@@ -128,6 +159,13 @@ export default {
           this.items.push({ name: item.name, price: item.price, quantity: 1 });
         }
       }
+    }
+  },
+  methods: {
+    async loadCustomerInfo (id) {
+      const { data } = await this.$axios(`/api/user/${id}`);
+      this.selectedCustomer = data.res;
+      this.showCustomerDialog = true;
     }
   }
 };

@@ -44,7 +44,7 @@ export default {
         { icon: 'mdi-basket', text: 'Your Order', link: 'order' },
         { icon: 'mdi-archive', text: 'Order History', link: 'history' },
         { icon: 'mdi-account', text: 'Account', link: 'account' },
-        { icon: 'mdi-currency-usd', text: 'Rewards', link: 'rewards', disabled: true },
+        { icon: 'mdi-currency-usd', text: 'Rewards', link: 'rewards' },
         { icon: 'mdi-cog', text: 'Settings', link: 'settings', disabled: true }
       ]
     };

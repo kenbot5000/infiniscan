@@ -154,6 +154,8 @@ export default {
         startY: 60
       });
       const title = 'Infiniscan Report  - ' + generatedDate + '.pdf';
+      doc.text('_______________________', 150, 285);
+      doc.text('Staff Name & Signature', 150, 290);
       doc.save(title);
     }
   }
