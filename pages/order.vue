@@ -36,6 +36,11 @@
           </v-card-actions>
         </v-col>
       </v-row>
+      <v-row v-if="orderData.status == 'cart'">
+        <v-col>
+          <h3>Total: &#8369;{{ total }}</h3>
+        </v-col>
+      </v-row>
 
       <!-- Order In Progress -->
       <v-card-text v-if="orderData.status == 'inprogress' || orderData.status == 'waiting'">
@@ -122,6 +127,9 @@ export default {
         }
       }
       return foodData;
+    },
+    total () {
+      return this.orderData.subtotal;
     }
   },
   watch: {
