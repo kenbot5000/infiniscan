@@ -36,6 +36,11 @@
           </v-card-actions>
         </v-col>
       </v-row>
+      <v-row v-if="orderData.status == 'cart'">
+        <v-col>
+          <h3>Total: &#8369;{{ total }}</h3>
+        </v-col>
+      </v-row>
 
       <!-- Order In Progress -->
       <v-card-text v-if="orderData.status == 'inprogress' || orderData.status == 'waiting'">
@@ -87,17 +92,20 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <OrderFeedback v-if="orderData.status == 'complete'" :order="orderData" @snackbar="$refs.Snackbar.show('Thank you for your feedback!')" @close-receipt="resetCart" />
   </v-container>
 </template>
 
 <script>
 import QRCode from 'qrcode';
 import Snackbar from '@/components/Snackbar';
+import OrderFeedback from '@/components/user/OrderFeedback';
 
 export default {
   name: 'UserOrder',
   components: {
-    Snackbar
+    Snackbar,
+    OrderFeedback
   },
   layout: 'user',
   data () {
@@ -122,6 +130,9 @@ export default {
         }
       }
       return foodData;
+    },
+    total () {
+      return this.orderData.subtotal;
     }
   },
   watch: {
@@ -154,6 +165,10 @@ export default {
       // eslint-disable-next-line no-unused-vars
         const notif = new Notification('Your order is ready for pickup!');
       }
+    });
+
+    this.socket.on('complete', () => {
+      this.orderData.status = 'complete';
     });
   },
   methods: {
@@ -203,9 +218,14 @@ export default {
       const { data } = await this.$axios.put('/api/order/changestatus', body);
       if (data.res) {
         this.$refs.Snackbar.show('Your order has been cancelled.');
-        this.orderData.items = [];
-        this.status = 'cart';
+        this.resetCart();
       }
+    },
+    resetCart () {
+      this.orderData.items = [];
+      this.orderData.status = 'cart';
+      this.orderData.subtotal = 0;
+      this.status = 'cart';
     }
   }
 };
