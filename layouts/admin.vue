@@ -73,6 +73,10 @@
             <v-list-item-icon><v-icon>mdi-wallet-giftcard</v-icon></v-list-item-icon>
             <v-list-item-title>Rewards</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/admin/feedback">
+            <v-list-item-icon><v-icon>mdi-comment-quote</v-icon></v-list-item-icon>
+            <v-list-item-title>Feedback</v-list-item-title>
+          </v-list-item>
           <v-list-item v-if="!admincookie.isstandard" to="/admin/users">
             <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-title>Manage Customers</v-list-item-title>
