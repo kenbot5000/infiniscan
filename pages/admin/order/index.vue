@@ -338,6 +338,7 @@ export default {
       if (res) {
         this.$refs.Snackbar.show(res.data.res);
         this.getOrders();
+        this.socket.emit('notification:send', { type: 'complete', id: this.activeOrder.user._id });
         this.showConfirmationDialog = false;
       }
     },
