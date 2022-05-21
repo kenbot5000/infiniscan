@@ -6,7 +6,7 @@
           <v-row>
             <v-col>
               <h3 class="text-h3 ml-4 mt-2 mb-2">
-                Customer Management
+                Customer Feedback
               </h3>
               <v-data-table :headers="userHeaders" :items="items" :search="search">
                 <template #top>
